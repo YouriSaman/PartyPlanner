@@ -1,0 +1,21 @@
+﻿@using Models
+@model AccountViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h1>Login</h1>
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div class="form-group">
+                <label>Gebruikersnaam:</label>
+                <input asp-for="Gebruikersnaam" class="form-control" type="text" />
+                <label>Wachtwoord:</label>
+                <input asp-for="Wachtwoord" class="form-control" type="password" />
+                <br />
+                <input class="form-control" type="submit" value="Log in!" />
+            </div>
+        </form>
+    </div>
+</div>

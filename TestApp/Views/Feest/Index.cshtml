@@ -1,0 +1,127 @@
+﻿@using Models
+@model FeestViewModel
+@{
+    ViewData["Title"] = "Algemene feest informatie";
+}
+
+<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+<div class="row">
+    <h1>Algemene informatie van het feest</h1>
+    <form method="post">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Feest titel:</label>
+                <input asp-for="FeestTitel" type="text" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Aantal personen:</label>
+                <input asp-for="AantalPersonen" type="number" class="form-control" />
+            </div>
+            <div>
+                <label>Drank?</label>
+                <input asp-for="Drank" id="drankCheckbox" type="checkbox" onchange="drankWensbox()" style="margin-left: 5px" />
+            </div>
+            <div>
+                <label>Eten?</label>
+                <input asp-for="Eten" id="etenCheckbox" type="checkbox" onchange="etenWensbox()" style="margin-left: 5px" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Drank wensen:</label>
+                <textarea asp-for="DrankWensen" id="drankTextbox" readonly="readonly" style="resize: vertical;" class="form-control" placeholder="Kies voor drank, om uw wensen aan te geven..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Eten wensen:</label>
+                <textarea asp-for="EtenWensen" id="etenTextbox" readonly="readonly" style="resize: vertical;" class="form-control" placeholder="Kies voor eten, om uw wensen aan te geven..."></textarea>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Betaald door:</label> <br />
+                <select class="form-control" asp-for="Betaling">
+                    <option value="0">Organisatie</option>
+                    <option value="1">Genodigden</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Entree:</label> <br />
+                <select asp-for="Entree" class="form-control" onchange="showEntreePrijs()">
+                    <option value="0">Nee</option>
+                    <option value="1" id="WelEntree">Ja</option>
+                </select>
+                
+                <label id="EntreePrijsLabel" hidden><br/>EntreePrijs:</label>
+                <br id="EntreePrijsBreak" hidden/><input class="form-control" id="EntreePrijs" asp-for="EntreePrijs" type="hidden"/>
+            </div>
+            <div class="form-group">
+                <label>Consumptie:</label> <br />
+                <select class="form-control" asp-for="Consumptie" onchange="showConsumptiePrijs()">
+                    <option value="0">All-In</option>
+                    <option value="1" id="WelGeld">Contant geld</option>
+                    <option value="2" id="WelBon">Consumptiebonnen</option>
+                </select>
+
+                <label id="ConsumptiePrijsLabel" hidden><br />EntreePrijs:</label>
+                <br id="ConsumptiePrijsBreak" hidden /><input class="form-control" id="ConsumptiePrijs" asp-for="ConsumptieBonPrijs" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label>Versiering:</label> <br />
+                <input type="radio" /> Ja <br />
+                <input type="radio" checked="checked" /> Nee
+            </div>
+        </div>
+
+        <button style="float: right" type="submit">Next</button>
+    </form>
+</div>
+
+<script>
+    function drankWensbox() {
+        if ($('#drankCheckbox:checked').length) {
+                $('#drankTextbox').attr('readonly', false); //Checked dan normaal
+                $('#drankTextbox').attr('placeholder', "");
+            } else {
+                $('#drankTextbox').attr('readonly', true); //Unchecked dan readonly
+            $('#drankTextbox').attr('placeholder', "Kies voor drank, om uw wensen aan te geven...");
+        }
+    };
+
+    function etenWensbox() {
+        if ($('#etenCheckbox:checked').length) {
+            $('#etenTextbox').attr('readonly', false); //Checked dan normaal
+            $('#etenTextbox').attr('placeholder', "");
+        } else {
+            $('#etenTextbox').attr('readonly', true); //Unchecked dan readonly
+            $('#etenTextbox').attr('placeholder', "Kies voor eten, om uw wensen aan te geven...");
+        }
+    };
+
+    function showEntreePrijs() {
+        if ($('#WelEntree:selected').length) {
+            $('#EntreePrijs').attr('type', "number");
+            $('#EntreePrijsLabel').removeAttr('hidden');
+            $('#EntreePrijsBreak').removeAttr('hidden');
+        } else {
+            $('#EntreePrijs').attr('type', "hidden");
+            $('#EntreePrijsLabel').attr('hidden', "");
+            $('#EntreePrijsBreak').attr('hidden', "");
+        }
+    }
+
+    function showConsumptiePrijs() {
+        if ($('#WelBon:selected').length) {
+            $('#ConsumptiePrijs').attr('type', "number");
+            $('#ConsumptiePrijsLabel').removeAttr('hidden');
+            $('#ConsumptiePrijsBreak').removeAttr('hidden');
+        } else if ($('#WelGeld:selected').length) {
+            $('#ConsumptiePrijs').attr('type', "number");
+            $('#ConsumptiePrijsLabel').removeAttr('hidden');
+            $('#ConsumptiePrijsBreak').removeAttr('hidden');
+        } else {
+            $('#ConsumptiePrijs').attr('type', "hidden");
+            $('#ConsumptiePrijsLabel').attr('hidden', "");
+            $('#ConsumptiePrijsBreak').attr('hidden', "");
+        }
+    }
+</script>

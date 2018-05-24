@@ -1,0 +1,15 @@
+﻿@using Models
+@model AccountViewModel
+@{
+    ViewData["Title"] = "Registreer succes";
+    Layout = "_LoggedIn";
+}
+
+<h1>Succes!</h1>
+<h2>Voor registreer!!!</h2>
+<ul>
+    @foreach (var gebruiker in Model.GetAllGebruikers())
+    {
+        <li>@gebruiker.Naam - @gebruiker.Straat + @gebruiker.Postcode</li>
+    }
+</ul>

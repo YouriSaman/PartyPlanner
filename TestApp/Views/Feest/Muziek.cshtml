@@ -1,0 +1,39 @@
+﻿@model FeestViewModel
+@{
+    ViewData["Title"] = "Muziek";
+}
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <h1>Muziek</h1>
+        <form>
+            <label>Kies muziekvoorziening:</label>
+            <select class="form-control">
+                <option>Niks / Zelf meenemen</option>
+                <option>Spullen van de zaal lenen</option>
+                <option>Artiest boeken</option>
+            </select>
+            <br />
+            <table class="table table-striped">
+                <tr>
+                    <th>Naam</th>
+                    <th>Beschikbaarheid</th>
+                    <th>Prijs</th>
+                </tr>
+                @foreach (var artiest in Model.Artiesten)
+                {
+                    <tr>
+                        <td>@artiest.Naam</td>
+                        <td>@artiest.Beschikbaar</td>
+                        <td>€@artiest.Prijs</td>
+                    </tr>
+                }
+            </table>
+
+        </form>
+    </div>
+    <div class="col-md-2">
+
+    </div>
+</div>

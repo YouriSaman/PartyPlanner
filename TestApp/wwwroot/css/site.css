@@ -33,3 +33,11 @@
         display: none;
     }
 }
+
+h2 {
+    color: red;
+}
+
+.btn-right {
+    float: right;
+}
