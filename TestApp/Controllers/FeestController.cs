@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using TestApp.ViewModels;
@@ -11,98 +13,81 @@ namespace TestApp.Controllers
 {
     public class FeestController : Controller
     {
-        private Logic.Logic logic = new Logic.Logic();
+        [Authorize]
         public IActionResult Index()
         {
             FeestViewModel viewModel = new FeestViewModel();
             return View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Index(Feest feest)
         {
             FeestLogic logic = new FeestLogic();
-            //FeestViewModel viewModel = new FeestViewModel();
-            if (feest.Drank == false)
-            {
-                feest.DrankWensen = "";
-            }
-            if (feest.Eten == false)
-            {
-                feest.EtenWensen = "";
-            }
-
-            if (feest.Entree == false)
-            {
-                feest.EntreePrijs = 0;
-            }
-
-            if (feest.Consumptie == Feest.ConsumptieKeuze.Allin)
-            {
-                feest.ConsumptieBonPrijs = 0;
-            }
-            
-            logic.MaakFeest(feest);
+            int id = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            logic.MaakFeest(feest, id);
             return RedirectToAction("LocaDate", logic);
         }
 
-        //public IActionResult LocaDate(FeestViewModel viewModel)
-        //{
-        //    Feest feest = new Feest();
-        //    feest.AantalPersonen = viewModel.AantalPersonen;
-        //    if (feest.Drank == false)
-        //    {
-        //        feest.DrankWensen = "";
-        //    }
-        //    if (feest.Eten == false)
-        //    {
-        //        feest.EtenWensen = "";
-        //    }
-
-        //    foreach (var Feest in viewModel.GetAllFeesten())
-        //    {
-        //        viewModel.Feesten.Add(Feest);
-        //    }
-        //    viewModel.Feesten.Add(feest);
-        //    return View(viewModel);
-        //}
-
-        
+        [Authorize]
         public IActionResult LocaDate(FeestLogic logic)
         {
-            FeestViewModel viewModel = new FeestViewModel();
-            Feest feest = new Feest();
-            viewModel.BeginDatum = feest.BeginDatum;
-            viewModel.EindDatum = feest.EindDatum;
-
-            if (logic.DatumCheck() == true)
-            {
-                return RedirectToAction("Muziek");
-            }
-            return View();
-
+            FeestViewModel model = new FeestViewModel();
+            model.FeestId = logic.FeestId;
+            return View(model);
         }
 
+        [Authorize]
+        [HttpPost]
+        public IActionResult LocaDate(FeestViewModel viewModel)
+        {
+            FeestLogic logic = new FeestLogic();
+            logic.BeginDatum = viewModel.BeginDatum;
+            logic.EindDatum = viewModel.EindDatum;
+            logic.FeestId = viewModel.FeestId;
 
+            if (logic.AddDatumFeest(logic.BeginDatum, logic.EindDatum, logic.FeestId) == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewData["InvalidDate"] = "Één of meerdere datums overlappen, pas de datum(s) aan!";
+            return View(viewModel);
+        }
+
+        [Authorize]
         public IActionResult Muziek(FeestViewModel viewModel)
         {
-            List<Artiest> artiesten = new List<Artiest>
-            {
-                new Artiest("Artiest1", 15.75, true),
-                new Artiest("Artiest2", 25, false)
-            };
+            FeestLogic logic = new FeestLogic();
+            var artiesten = logic.GetAllArtiesten();
+            int feestId = viewModel.FeestId;
+            logic.FeestId = feestId;
 
-            FeestViewModel viewModelMuziek = new FeestViewModel();
-            viewModelMuziek.Artiesten = artiesten;
-            return View(viewModelMuziek);
+            FeestViewModel model = new FeestViewModel();
+            model.FeestId = feestId;
+            model.Artiesten = artiesten;
+
+            
+            return View(model);
         }
 
-        //[HttpPost]
-        //public IActionResult Muziek(Feest feest)
-        //{
-            
-        //    return View();
+        [HttpPost]
+        public IActionResult Muziek(int ArtiestId, int FeestId, Feest.MuziekKeuze Muziek)
+        {
+            FeestLogic logic = new FeestLogic();
+            logic.AddArtiestFeest(FeestId, ArtiestId, Muziek);
+            return RedirectToAction("Index", "Home");
+        }
 
-        //}
+        public IActionResult Edit(int FeestId)
+        {
+            FeestViewModel viewModel = new FeestViewModel();
+            FeestLogic logic = new FeestLogic();
+            viewModel.Feest = logic.GetFeestMetId(FeestId);
+            return View(viewModel);
+        }
+
+        
     }
 }

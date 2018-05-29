@@ -21,6 +21,8 @@ namespace TestApp.ViewModels
         public string Woonplaats { get; set; }
         public bool Admin { get; set; }
 
+        public FeestViewModel feestViewModel = new FeestViewModel();
+
         public List<Gebruiker> GetAllGebruikers()
         {
             return data.GetAllGebruikers();

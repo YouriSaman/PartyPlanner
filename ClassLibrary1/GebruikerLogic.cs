@@ -41,9 +41,29 @@ namespace Logic
             return _gebruikerContext.LoginAccGebruikers();
         }
 
+        public bool LogCheck(string gebruikersnaam, string wachtwoord)
+        {
+            return _gebruikerContext.Checklogin(gebruikersnaam, wachtwoord);
+        }
+
+        public Gebruiker AccountGebruiker(string gebruikersnaam)
+        {
+            return _gebruikerContext.GetAccountGebruiker(gebruikersnaam);
+        }
+
+        public Gebruiker ProfielGebruiker(int gebruikerId)
+        {
+            return _gebruikerContext.GetProfielGebruiker(gebruikerId);
+        }
+
+        public List<Feest> FeestenGebruiker(int gebruikerId)
+        {
+            return _gebruikerContext.AlleFeestenGebruiker(gebruikerId);
+        }
+
         public bool LoginCheck(string gebruikersnaam, string wachtwoord)
         {
-            foreach (var gebruiker in GetAccGebruikers())
+            foreach (var gebruiker in GetAllGebruikers())
             {
                 if (gebruiker.Gebruikersnaam == gebruikersnaam && gebruiker.Wachtwoord == wachtwoord)
                 {

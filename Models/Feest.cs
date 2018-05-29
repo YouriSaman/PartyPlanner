@@ -29,6 +29,13 @@ namespace Models
         public DateTime EindTijd { get; set; }
         public string FeestTitel { get; set; }
         public List<Artiest> Artiesten { get; set; }
+        public int ArtiestId { get; set; }
+        public int GebruikerId { get; set; }
+        public MuziekKeuze Muziek { get => _muziekKeuze; set => _muziekKeuze = value; }
+
+        public enum MuziekKeuze { Niks, Zaal, Artiest}
+
+        private MuziekKeuze _muziekKeuze;
 
 
         public Feest() { }

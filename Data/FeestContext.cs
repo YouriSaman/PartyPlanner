@@ -9,10 +9,10 @@ namespace Data
 {
     public class FeestContext : Connection
     {
-        public int Add(Feest entity)
+        public int Add(Feest entity, int id)
         {
-            string query = "INSERT INTO [dbo].[Feest] ([FeestTitel],[AantalPersonen],[Drank],[Eten],[DrankWensen],[EtenWensen],[Betaling],[Entree],[EntreePrijs],[Consumptie], [ConsumptiePrijs],[Versiering],[BeginDatum],[EindDatum]) " +
-                           "VALUES(@FeestTitel, @AantalPersonen, @Drank, @Eten, @DrankWensen, @EtenWensen, @Betaling, @Entree, @EntreePrijs, @Consumptie, @ConsumptiePrijs, @Versiering, @BeginDatum, @EindDatum); " +
+            string query = "INSERT INTO [dbo].[Feest] ([FeestTitel],[AantalPersonen],[Drank],[Eten],[DrankWensen],[EtenWensen],[Betaling],[Entree],[EntreePrijs],[Consumptie], [ConsumptiePrijs],[Versiering],[BeginDatum],[EindDatum], [ArtiestId], [GebruikerId], [Muziek]) " +
+                           "VALUES(@FeestTitel, @AantalPersonen, @Drank, @Eten, @DrankWensen, @EtenWensen, @Betaling, @Entree, @EntreePrijs, @Consumptie, @ConsumptiePrijs, @Versiering, @BeginDatum, @EindDatum, @ArtiestId, @GebruikerId, @Muziek); " +
                            "SELECT @@IDENTITY AS NewID;";
 
             using (SqlCommand command = new SqlCommand(query, ConnectionString))
@@ -31,6 +31,9 @@ namespace Data
                 command.Parameters.AddWithValue("@Versiering", entity.Versierd);
                 command.Parameters.AddWithValue("@BeginDatum", DateTime.Now);
                 command.Parameters.AddWithValue("@EindDatum", DateTime.Now.AddDays(1));
+                command.Parameters.AddWithValue("@ArtiestId", 0);
+                command.Parameters.AddWithValue("@GebruikerId", id);
+                command.Parameters.AddWithValue("@Muziek", 0);
 
                 try
                 {
@@ -59,35 +62,31 @@ namespace Data
 
         }
 
-        public int AddDatum(Feest entity)
+        public bool AddDatum(DateTime beginDatum, DateTime eindDatum, int feestId)
         {
-            string query = "UPDATE Feest SET BeginDatum = @BeginDatum, EindDatum = 145 WHERE id = @FeestId;";
+            string query = "UPDATE Feest SET BeginDatum = @BeginDatum, EindDatum = @EindDatum WHERE FeestId = @FeestId;";
 
             using (SqlCommand command = new SqlCommand(query, ConnectionString))
             {
-                command.Parameters.AddWithValue("@BeginDatum", entity.BeginDatum);
-                command.Parameters.AddWithValue("@EindDatum", entity.EindDatum);
-                command.Parameters.AddWithValue("@FeestId", entity.FeestId);
-                
+                command.Parameters.AddWithValue("@BeginDatum", beginDatum);
+                command.Parameters.AddWithValue("@EindDatum", eindDatum);
+                command.Parameters.AddWithValue("@FeestId", feestId);
+
 
                 try
                 {
                     ConnectionString.Open();
+                    int result = command.ExecuteNonQuery();
 
-                    SqlDataReader rowsAffected = command.ExecuteReader();
-
-                    int feestid = 0;
-
-                    while (rowsAffected.Read())
+                    if (result == 0)
                     {
-                        var decimalId = (decimal)rowsAffected["NewID"];
+                        ConnectionString.Close();
 
-                        feestid = Convert.ToInt32(decimalId);
+                        return false;
                     }
 
                     ConnectionString.Close();
-
-                    return feestid;
+                    return true;
                 }
                 catch (Exception errorException)
                 {
@@ -97,33 +96,38 @@ namespace Data
 
         }
 
-        public List<Feest> DatumsFeesten()
+        public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
-            var feesten = new List<Feest>();
-            ConnectionString.Open();
-            using (var command = new SqlCommand("dbo.spDatumsFeesten", ConnectionString))
+            string query = "UPDATE Feest SET ArtiestId = @ArtiestId, Muziek = @Muziek WHERE FeestId = @FeestId;";
+
+            using (SqlCommand command = new SqlCommand(query, ConnectionString))
             {
-                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ArtiestId", artiestId);
+                command.Parameters.AddWithValue("@FeestId", feestId);
+                command.Parameters.AddWithValue("@Muziek", keuze);
 
-                using (var reader = command.ExecuteReader())
+
+                try
                 {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            var feest = new Feest()
-                            {
-                                BeginDatum = (DateTime)reader["BeginDatum"],
-                                EindDatum = (DateTime)reader["EindDatum"]
-                            };
+                    ConnectionString.Open();
+                    int result = command.ExecuteNonQuery();
 
-                            feesten.Add(feest);
-                        }
+                    if (result == 0)
+                    {
+                        ConnectionString.Close();
+
+                        return false;
                     }
+
+                    ConnectionString.Close();
+                    return true;
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
                 }
             }
 
-            return feesten;
         }
 
         public List<Feest> GetAllFeesten()
@@ -142,6 +146,7 @@ namespace Data
                         {
                             var feest = new Feest()
                             {
+                                FeestId = (int)reader["FeestId"],
                                 AantalPersonen = (int)reader["AantalPersonen"],
                                 Entree = (bool)reader["Entree"],
                                 EntreePrijs = (decimal)reader["EntreePrijs"],
@@ -155,7 +160,10 @@ namespace Data
                                 BeginDatum = (DateTime)reader["BeginDatum"],
                                 EindDatum = (DateTime)reader["EindDatum"],
                                 FeestTitel = (string)reader["FeestTitel"],
-                                Betaling = (Feest.BetalingKeuze)reader["Betaling"]
+                                Betaling = (Feest.BetalingKeuze)reader["Betaling"],
+                                ArtiestId = (int)reader["ArtiestId"],
+                                GebruikerId = (int)reader["GebruikerId"],
+                                Muziek = (Feest.MuziekKeuze)reader["Muziek"]
                             };
 
                             feesten.Add(feest);
@@ -165,6 +173,61 @@ namespace Data
             }
             ConnectionString.Close();
             return feesten;
+        }
+
+        public Feest FeestMetId(int feestId)
+        {
+            string query = "SELECT * FROM Feest WHERE FeestId = @FeestId";
+            using (var cmd = new SqlCommand(query, ConnectionString))
+            {
+                cmd.Parameters.AddWithValue("@FeestId", feestId);
+                try
+                {
+                    ConnectionString.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            Feest feest = new Feest();
+                            while (reader.Read())
+                            {
+                                feest.FeestId = (int) reader["FeestId"];
+                                feest.AantalPersonen = (int) reader["AantalPersonen"];
+                                feest.Entree = (bool) reader["Entree"];
+                                feest.EntreePrijs = (decimal) reader["EntreePrijs"];
+                                feest.Consumptie = (Feest.ConsumptieKeuze) reader["Consumptie"];
+                                feest.ConsumptieBonPrijs = (decimal) reader["ConsumptiePrijs"];
+                                feest.Versierd = (bool) reader["Versiering"];
+                                feest.Drank = (bool) reader["Drank"];
+                                feest.Eten = (bool) reader["Eten"];
+                                feest.DrankWensen = (string) reader["DrankWensen"];
+                                feest.EtenWensen = (string) reader["EtenWensen"];
+                                feest.BeginDatum = (DateTime) reader["BeginDatum"];
+                                feest.EindDatum = (DateTime) reader["EindDatum"];
+                                feest.FeestTitel = (string) reader["FeestTitel"];
+                                feest.Betaling = (Feest.BetalingKeuze) reader["Betaling"];
+                                feest.ArtiestId = (int) reader["ArtiestId"];
+                                feest.GebruikerId = (int) reader["GebruikerId"];
+                                feest.Muziek = (Feest.MuziekKeuze) reader["Muziek"];
+
+                            }
+
+                            ConnectionString.Close();
+                            return feest;
+                        }
+                        else
+                        {
+                            ConnectionString.Close();
+                            return null;
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
     }
 }

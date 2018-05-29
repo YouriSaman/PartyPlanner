@@ -7,17 +7,18 @@
 <form method="post">
     <div class="row">
         <div class="col-md-6">
+            <input type="hidden" asp-for="FeestId" value="@Model.FeestId"/>
             <h1>Datum & Tijd</h1>
-
+            
+            <div class="alert-danger" role="alert">@ViewData["InvalidDate"]</div>
             <div class="form-group">
                 <label>Begin datum:</label>
-                <input asp-for="BeginDatum" type="datetime-local" class="form-control" value="@DateTime.Now" />
+                <input asp-for="BeginDatum" type="datetime-local" class="form-control" />
             </div>
             <div class="form-group">
                 <label>Eind datum:</label>
-                <input asp-for="EindDatum" type="datetime-local" class="form-control" value="@DateTime.Now" />
+                <input asp-for="EindDatum" type="datetime-local" class="form-control" />
             </div>
-            <input class="form-control" type="submit" value="Voeg toe!">
         </div>
         <div class="col-md-6">
             <h1>Locatie</h1>
@@ -26,7 +27,7 @@
     <br />
     <div class="row">
 
-        <button style="float: right" type="submit">Next</button>
+        <button style="float: right" type="submit">Maak aan!</button>
 
     </div>
 </form>

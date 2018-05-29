@@ -34,14 +34,49 @@ namespace Logic
         public List<Artiest> Artiesten { get; set; }
 
         private FeestContext _feestContext;
+        private ArtiestContext _artiestContext;
         public FeestLogic()
         {
             _feestContext = new FeestContext();
+            _artiestContext = new ArtiestContext();
         }
 
-        public void MaakFeest(Feest feest)
+        public void MaakFeest(Feest feest, int gebruikerId)
         {
-           FeestId = _feestContext.Add(feest);
+            if (feest.Drank == false)
+            {
+                feest.DrankWensen = "";
+            }
+            if (feest.Eten == false)
+            {
+                feest.EtenWensen = "";
+            }
+
+            if (feest.Entree == false)
+            {
+                feest.EntreePrijs = 0;
+            }
+
+            if (feest.Consumptie == Feest.ConsumptieKeuze.Allin)
+            {
+                feest.ConsumptieBonPrijs = 0;
+            }
+            FeestId = _feestContext.Add(feest, gebruikerId);
+        }
+
+        public bool AddDatumFeest(DateTime beginDatum, DateTime eindDatum, int feestId)
+        {
+            if (DatumCheck(beginDatum, eindDatum) == true)
+            {
+                return _feestContext.AddDatum(beginDatum, eindDatum, feestId);
+            };
+
+            return false;
+        }
+
+        public bool AddArtiestFeest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
+        {
+            return _feestContext.AddArtiest(feestId, artiestId, keuze);
         }
 
         public List<Feest> GetAllFeesten()
@@ -49,22 +84,40 @@ namespace Logic
             return _feestContext.GetAllFeesten();
         }
 
-        public bool DatumCheck()
+        public Feest GetFeestMetId(int feestId)
         {
+            return _feestContext.FeestMetId(feestId);
+        }
+
+        public List<Artiest> GetAllArtiesten()
+        {
+            return _artiestContext.GetArtiesten();
+        }
+
+        private bool DatumCheck(DateTime beginDatum, DateTime eindDatum)
+        {
+            var goedeDatum = false;
             foreach (var feest in GetAllFeesten())
             {
-                if (BeginDatum < EindDatum)
+                if (beginDatum < eindDatum)
                 {
-                    if ((EindDatum < feest.BeginDatum && EindDatum < feest.EindDatum) || (BeginDatum > feest.BeginDatum && BeginDatum > feest.EindDatum))
+                    if ((eindDatum < feest.BeginDatum && eindDatum < feest.EindDatum) || (beginDatum > feest.BeginDatum && beginDatum > feest.EindDatum))
                     {
-                        return true;
+                        goedeDatum = true;
                     }
-
-                    return false;
+                    else
+                    {
+                        goedeDatum = false;
+                        break;
+                    }
                 }
-
-                break;
             }
+
+            if (goedeDatum == true)
+            {
+                return true;
+            }
+            
             return false;
         }
     }

@@ -1,0 +1,26 @@
+﻿@using Models
+@model AccountViewModel
+@{
+    ViewData["Title"] = "Profiel";
+}
+
+<h1>Mijn profiel</h1>
+
+<label>GebruikerId:</label>
+<input class="form-control" readonly type="text" value="@Model.GebruikerId" />
+<label>Naam:</label>
+<input asp-for="Naam" class="form-control" type="text" value="@Model.Naam" />
+<label>Gebruikersnaam:</label>
+<input asp-for="Gebruikersnaam" class="form-control" type="text" value="@Model.Gebruikersnaam" />
+<label>Wachtwoord:</label>
+<input asp-for="Wachtwoord" class="form-control" type="password" value="@Model.Wachtwoord" />
+<label>E-mail:</label>
+<input asp-for="Email" class="form-control" type="email" value="@Model.Email" />
+<label>Straatnaam:</label>
+<input asp-for="Straat" class="form-control" type="text" value="@Model.Straat" />
+<label>Huisnummer:</label>
+<input asp-for="Huisnummer" class="form-control" type="text" value="@Model.Huisnummer" />
+<label>Postcode:</label>
+<input asp-for="Postcode" class="form-control" type="text" value="@Model.Postcode" />
+<label>Woonplaats:</label>
+<input asp-for="Woonplaats" class="form-control" type="text" value="@Model.Woonplaats" />

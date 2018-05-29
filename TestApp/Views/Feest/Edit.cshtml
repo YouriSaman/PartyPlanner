@@ -1,13 +1,17 @@
 ﻿@using Models
 @model FeestViewModel
 @{
-    ViewData["Title"] = "Algemene feest informatie";
+    ViewData["Title"] = "Feest aanpassen";
 }
 
-<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-<div class="row">
-    <h1>Algemene informatie van het feest</h1>
-    <form method="post">
+<h1>Feestgegevens aanpassen of bekijken</h1>
+<form>
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Algemeen</h2>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-3">
             <div class="form-group">
                 <label>Feest titel:</label>
@@ -50,9 +54,9 @@
                     <option value="0">Nee</option>
                     <option value="1" id="WelEntree">Ja</option>
                 </select>
-                
-                <label id="EntreePrijsLabel" hidden><br/>EntreePrijs:</label>
-                <br id="EntreePrijsBreak" hidden/><input class="form-control" id="EntreePrijs" asp-for="EntreePrijs" type="hidden"/>
+
+                <label id="EntreePrijsLabel" hidden><br />EntreePrijs:</label>
+                <br id="EntreePrijsBreak" hidden /><input class="form-control" id="EntreePrijs" asp-for="EntreePrijs" type="hidden" />
             </div>
             <div class="form-group">
                 <label>Consumptie:</label> <br />
@@ -73,57 +77,70 @@
                 </select>
             </div>
         </div>
+    </div>
+    <div class="row-separator"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="hidden" asp-for="FeestId" value="@Model.FeestId" />
+            <h2>Datum & Tijd</h2>
 
-        <button style="float: right" type="submit">Next</button>
-    </form>
-</div>
+            <h4 class="alert-danger">@ViewData["InvalidDate"]</h4>
+            <div class="form-group">
+                <label>Begin datum:</label>
+                <input asp-for="BeginDatum" type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Eind datum:</label>
+                <input asp-for="EindDatum" type="datetime-local" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>Locatie</h1>
+        </div>
+    </div>
+    <div class="row-separator"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Muziek</h2>
+            <form>
+                <label>Kies muziekvoorziening:</label>
+                <select class="form-control">
+                    <option>Niks / Zelf meenemen</option>
+                    <option>Spullen van de zaal lenen</option>
+                    <option>Artiest boeken</option>
+                </select>
+                <br />
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <select class="form-control" size="@Model.Artiesten.Count">
+                            @foreach (var artiest in Model.Artiesten)
+                            {
+                                <option value="@artiest.ArtiestId">@artiest.Naam ~ €@artiest.Prijs</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+                <br />
+                <table class="table table-striped">
+                    <tr>
+                        <th>Naam</th>
+                        <th>Beschikbaarheid</th>
+                        <th>Prijs</th>
+                    </tr>
+                    @foreach (var artiest in Model.Artiesten)
+                    {
+                        <tr>
+                            <td>@artiest.Naam</td>
+                            <td>@artiest.Beschikbaar</td>
+                            <td>€@artiest.Prijs</td>
+                        </tr>
+                    }
+                </table>
 
-<script>
-    function drankWensbox() {
-        if ($('#drankCheckbox:checked').length) {
-                $('#drankTextbox').attr('readonly', false); //Checked dan normaal
-                $('#drankTextbox').attr('placeholder', "Maximaal 450 characters");
-            } else {
-                $('#drankTextbox').attr('readonly', true); //Unchecked dan readonly
-            $('#drankTextbox').attr('placeholder', "Kies voor drank, om uw wensen aan te geven...");
-        }
-    };
+            </form>
+        </div>
 
-    function etenWensbox() {
-        if ($('#etenCheckbox:checked').length) {
-            $('#etenTextbox').attr('readonly', false); //Checked dan normaal
-            $('#etenTextbox').attr('placeholder', "Maximaal 450 characters");
-        } else {
-            $('#etenTextbox').attr('readonly', true); //Unchecked dan readonly
-            $('#etenTextbox').attr('placeholder', "Kies voor eten, om uw wensen aan te geven...");
-        }
-    };
-
-    function showEntreePrijs() {
-        if ($('#WelEntree:selected').length) {
-            $('#EntreePrijs').attr('type', "number");
-            $('#EntreePrijsLabel').removeAttr('hidden');
-            $('#EntreePrijsBreak').removeAttr('hidden');
-        } else {
-            $('#EntreePrijs').attr('type', "hidden");
-            $('#EntreePrijsLabel').attr('hidden', "");
-            $('#EntreePrijsBreak').attr('hidden', "");
-        }
-    }
-
-    function showConsumptiePrijs() {
-        if ($('#WelBon:selected').length) {
-            $('#ConsumptiePrijs').attr('type', "number");
-            $('#ConsumptiePrijsLabel').removeAttr('hidden');
-            $('#ConsumptiePrijsBreak').removeAttr('hidden');
-        } else if ($('#WelGeld:selected').length) {
-            $('#ConsumptiePrijs').attr('type', "number");
-            $('#ConsumptiePrijsLabel').removeAttr('hidden');
-            $('#ConsumptiePrijsBreak').removeAttr('hidden');
-        } else {
-            $('#ConsumptiePrijs').attr('type', "hidden");
-            $('#ConsumptiePrijsLabel').attr('hidden', "");
-            $('#ConsumptiePrijsBreak').attr('hidden', "");
-        }
-    }
-</script>
+    </div>
+</form>

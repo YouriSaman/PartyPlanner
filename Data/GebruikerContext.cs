@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using Models;
 
@@ -77,6 +78,125 @@ namespace Data
             return gebruikers;
         }
 
+        public bool Checklogin(string gebruikersnaam, string wachtwoord)
+        {
+            string query = "select * from [Gebruiker] where [Gebruikersnaam] = @Gebruikersnaam and [Wachtwoord] = @Wachtwoord;";
+
+            using (SqlCommand command = new SqlCommand(query, ConnectionString))
+            {
+                command.Parameters.AddWithValue("@Gebruikersnaam", gebruikersnaam);
+                command.Parameters.AddWithValue("@Wachtwoord", wachtwoord);
+
+                try
+                {
+                    ConnectionString.Open();
+
+                    var result = command.ExecuteScalar();
+
+                    if (result == null)
+                    {
+                        ConnectionString.Close();
+                        return false;
+                    }
+                    else
+                    {
+                        ConnectionString.Close();
+                        return true;
+                    }
+                }
+                catch (Exception errorException)
+                {
+                    throw errorException;
+                }
+            }
+        }
+
+        public Gebruiker GetAccountGebruiker(string gebruikersnaam)
+        {
+            ConnectionString.Open();
+            string query = "SELECT * FROM Gebruiker WHERE Gebruikersnaam = @gebruikersnaam";
+            using (SqlCommand cmd = new SqlCommand(query, ConnectionString))
+            {
+                cmd.Parameters.AddWithValue("@gebruikersnaam", gebruikersnaam);
+                try
+                {
+                    var resultaat = cmd.ExecuteScalar();
+                    if (resultaat != null)
+                    {
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        reader.Read();
+
+                        Gebruiker gebruiker = new Gebruiker
+                        {
+                            GebruikerId = (int) reader["GebruikerId"],
+                            Gebruikersnaam = (string) reader["Gebruikersnaam"],
+                            Wachtwoord = (string) reader["Wachtwoord"],
+                            Email = (string) reader["Email"],
+                            Naam = (string) reader["Naam"],
+                            Straat = (string) reader["Straat"],
+                            Huisnummer = (string) reader["Huisnummer"],
+                            Postcode = (string) reader["Postcode"],
+                            Woonplaats = (string) reader["Woonplaats"],
+                            Admin = (bool) reader["Admin"]
+                        };
+                        ConnectionString.Close();
+                        return gebruiker;
+                    }
+
+                    return null;
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        public Gebruiker GetProfielGebruiker(int gebruikerId)
+        {
+            ConnectionString.Open();
+            string query = "SELECT * FROM Gebruiker WHERE GebruikerId = @gebruikerId";
+            using (SqlCommand cmd = new SqlCommand(query, ConnectionString))
+            {
+                cmd.Parameters.AddWithValue("@gebruikerId", gebruikerId);
+                try
+                {
+                    var resultaat = cmd.ExecuteScalar();
+                    if (resultaat != null)
+                    {
+                        SqlDataReader reader = cmd.ExecuteReader();
+
+                        reader.Read();
+
+                        Gebruiker gebruiker = new Gebruiker
+                        {
+                            GebruikerId = (int)reader["GebruikerId"],
+                            Gebruikersnaam = (string)reader["Gebruikersnaam"],
+                            Wachtwoord = (string)reader["Wachtwoord"],
+                            Email = (string)reader["Email"],
+                            Naam = (string)reader["Naam"],
+                            Straat = (string)reader["Straat"],
+                            Huisnummer = (string)reader["Huisnummer"],
+                            Postcode = (string)reader["Postcode"],
+                            Woonplaats = (string)reader["Woonplaats"],
+                            Admin = (bool)reader["Admin"]
+                        };
+                        ConnectionString.Close();
+                        return gebruiker;
+                    }
+
+                    return null;
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
         public List<Gebruiker> LoginAccGebruikers()
         {
             var gebruikers = new List<Gebruiker>();
@@ -105,6 +225,49 @@ namespace Data
             }
 
             return gebruikers;
+        }
+
+        public List<Feest> AlleFeestenGebruiker(int gebruikerId)
+        {
+            var feesten = new List<Feest>();
+            ConnectionString.Open();
+            string query = "SELECT * FROM [Feest] WHERE GebruikerId = @gebruikerId";
+            using (var command = new SqlCommand(query, ConnectionString))
+            {
+                command.Parameters.AddWithValue("@gebruikerId", gebruikerId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var feest = new Feest()
+                            {
+                                FeestId = (int)reader["FeestId"],
+                                AantalPersonen = (int)reader["AantalPersonen"],
+                                Entree = (bool)reader["Entree"],
+                                EntreePrijs = (decimal)reader["EntreePrijs"],
+                                Consumptie = (Feest.ConsumptieKeuze)reader["Consumptie"],
+                                ConsumptieBonPrijs = (decimal)reader["ConsumptiePrijs"],
+                                Versierd = (bool)reader["Versiering"],
+                                Drank = (bool)reader["Drank"],
+                                Eten = (bool)reader["Eten"],
+                                EtenWensen = (string)reader["EtenWensen"],
+                                DrankWensen = (string)reader["DrankWensen"],
+                                BeginDatum = (DateTime)reader["BeginDatum"],
+                                EindDatum = (DateTime)reader["EindDatum"],
+                                FeestTitel = (string)reader["FeestTitel"],
+                                Betaling = (Feest.BetalingKeuze)reader["Betaling"]
+                            };
+
+                            feesten.Add(feest);
+                        }
+                    }
+                }
+            }
+            ConnectionString.Close();
+            return feesten;
         }
     }
 }

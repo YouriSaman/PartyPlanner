@@ -1,2 +1,51 @@
-﻿@model object
+﻿@using Models
+@model AccountViewModel
+@{
+    ViewData["Title"] = "Profiel";
+}
+
+<h1>Mijn profiel</h1>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <form>
+                    <h3>Account gegevens</h3>
+                    <label>Naam:</label>
+                    <p>@Model.Naam</p>
+                    <label>Gebruikersnaam:</label>
+                    <p>@Model.Gebruikersnaam</p>
+                    <label>Wachtwoord:</label>
+                    <p>*********</p>
+                    <label>E-mail:</label>
+                    <p>@Model.Email</p>
+                    <label>Straatnaam:</label>
+                    <p>@Model.Straat</p>
+                    <label>Huisnummer:</label>
+                    <p>@Model.Huisnummer</p>
+                    <label>Postcode:</label>
+                    <p>@Model.Postcode</p>
+                    <label>Woonplaats:</label>
+                    <p>@Model.Woonplaats</p>
+
+                    <button>Verander accountgegevens</button>
+                </form>
+                
+            </div>
+            <div class="col-md-6">
+                
+                <h3>Alle feesten van @Model.Naam</h3>
+                <div class="list-group">
+                    @foreach (var feest in @Model.feestViewModel.Feesten)
+                    {
+                        <form asp-controller="Feest" asp-action="Edit" method="get">
+                        <button type="submit" class="list-group-item"><b>@feest.FeestTitel</b>: @feest.BeginDatum.ToString("f") - @feest.EindDatum.ToString("f") <input hidden Name="FeestId" value="@feest.FeestId"/> </button>
+                        </form>
+                    }
+                </div>
+                
+            </div>
+        </div>
+    </div>
 

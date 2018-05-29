@@ -12,6 +12,8 @@ namespace TestApp.ViewModels
         //public List<Feest> feesten { get; set; }
         //public List<Artiest> artiesten { get; set; }
 
+        public int FeestId { get; set; }
+        public int ArtiestId { get; set; }
         public int AantalPersonen { get; set; }
         public enum BetalingKeuze { Organisatie, Genodigden }
 
@@ -37,6 +39,11 @@ namespace TestApp.ViewModels
         public List<Artiest> Artiesten { get; set; }
         public Feest Feest = new Feest();
         public List<Feest> Feesten = new List<Feest>();
+        public MuziekKeuze Muziek { get => _muziekKeuze; set => _muziekKeuze = value; }
+
+        public enum MuziekKeuze { Niks, Zaal, Artiest }
+
+        private MuziekKeuze _muziekKeuze;
 
         public FeestViewModel()
         {

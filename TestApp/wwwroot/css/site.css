@@ -34,10 +34,13 @@
     }
 }
 
-h2 {
-    color: red;
-}
-
 .btn-right {
     float: right;
+}
+
+.row-separator {
+    margin: 10px 0;
+    border-top: solid #e8e8e8 2px;
+    padding: 10px;
+    border-bottom: solid #e8e8e8 2px;
 }

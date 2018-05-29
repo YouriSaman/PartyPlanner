@@ -14,25 +14,34 @@ namespace TestApp.Controllers
 {
     public class AccountController : Controller
     {
-        Logic.Logic logic = new Logic.Logic();
         AccountViewModel viewModel = new AccountViewModel();
 
         public IActionResult Index()
         {
-            return View();
+            int gebruikerId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            GebruikerLogic logic = new GebruikerLogic();
+            var feesten = logic.FeestenGebruiker(gebruikerId);
+            viewModel.feestViewModel.Feesten = feesten;
+            var gebruiker = logic.ProfielGebruiker(gebruikerId);
+            viewModel.GebruikerId = gebruiker.GebruikerId;
+            viewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
+            viewModel.Wachtwoord = gebruiker.Wachtwoord;
+            viewModel.Email = gebruiker.Email;
+            viewModel.Straat = gebruiker.Straat;
+            viewModel.Huisnummer = gebruiker.Huisnummer;
+            viewModel.Woonplaats = gebruiker.Woonplaats;
+            viewModel.Postcode = gebruiker.Postcode;
+            viewModel.Naam = gebruiker.Naam;
+            return View(viewModel);
         }
 
         public IActionResult Login()
         {
+            GebruikerLogic logic = new GebruikerLogic();
             AccountViewModel loginViewModel = new AccountViewModel();
-            loginViewModel.Gebruikersnaam = logic.gebruikersnaam;
-            loginViewModel.Wachtwoord = logic.wachtwoord;
+            loginViewModel.Gebruikersnaam = logic.Gebruikersnaam;
+            loginViewModel.Wachtwoord = logic.Wachtwoord;
 
-            return View();
-        }
-
-        public IActionResult LoginSucces()
-        {
             return View();
         }
 
@@ -43,9 +52,10 @@ namespace TestApp.Controllers
             GebruikerLogic logic = new GebruikerLogic();
             loginViewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
             loginViewModel.Wachtwoord = gebruiker.Wachtwoord;
-            if (logic.LoginCheck(loginViewModel.Gebruikersnaam, loginViewModel.Wachtwoord) == true)
+            if (logic.LogCheck(loginViewModel.Gebruikersnaam, loginViewModel.Wachtwoord) == true)
             {
-                PerformLogin(gebruiker);
+                var gebruikerAccount = logic.AccountGebruiker(loginViewModel.Gebruikersnaam);
+                PerformLogin(gebruikerAccount);
                 return RedirectToAction("Index", "Home");
             }
             return View();
@@ -82,11 +92,24 @@ namespace TestApp.Controllers
 
             }
 
-            return RedirectToAction("LoginSucces");
+            ViewData["InvalidRegister"] = "Er is iets fout gegaan bij het aanmaken van een nieuw account, pas de velden aan en probeer het opnieuw!";
+            return View();
         }
 
-        public IActionResult RegistreerSucces()
+        public IActionResult VeranderAccount()
         {
+            int gebruikerId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
+            GebruikerLogic logic = new GebruikerLogic();
+            var gebruiker = logic.ProfielGebruiker(gebruikerId);
+            viewModel.GebruikerId = gebruiker.GebruikerId;
+            viewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
+            viewModel.Wachtwoord = gebruiker.Wachtwoord;
+            viewModel.Email = gebruiker.Email;
+            viewModel.Straat = gebruiker.Straat;
+            viewModel.Huisnummer = gebruiker.Huisnummer;
+            viewModel.Woonplaats = gebruiker.Woonplaats;
+            viewModel.Postcode = gebruiker.Postcode;
+            viewModel.Naam = gebruiker.Naam;
             return View(viewModel);
         }
 
@@ -95,6 +118,8 @@ namespace TestApp.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, gebruiker.Gebruikersnaam),
+                new Claim(ClaimTypes.NameIdentifier, Convert.ToString(gebruiker.GebruikerId)),
+                new Claim(ClaimTypes.GivenName, gebruiker.Naam),
                 new Claim(ClaimTypes.Role, gebruiker.Admin ? "Admin" : "Gebruiker"),
             };
 
