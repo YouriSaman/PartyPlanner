@@ -31,6 +31,7 @@ namespace Models
         public List<Artiest> Artiesten { get; set; }
         public int ArtiestId { get; set; }
         public int GebruikerId { get; set; }
+        public int ZaalId { get; set; }
         public MuziekKeuze Muziek { get => _muziekKeuze; set => _muziekKeuze = value; }
 
         public enum MuziekKeuze { Niks, Zaal, Artiest}

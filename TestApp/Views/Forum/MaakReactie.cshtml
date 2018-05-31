@@ -1,0 +1,18 @@
+﻿@using Models
+@model ForumViewModel
+@{
+    ViewData["Title"] = "Forum";
+}
+
+<div class="row">
+    <h1>Schrijf nieuwe reactie</h1>
+    <div class="col-md-7">
+        <form>
+            @*<label>Titel:</label>
+            <input class="form-control" maxlength="50" asp-for="@Model.Titel" type="Text" placeholder="Maximaal 50 characters..." />*@
+            <label>Reactie:</label>
+            <textarea asp-for="@Model.Tekst" style="resize: vertical; min-height: 50px; height: 250px;" class="form-control" maxlength="450" placeholder="Maximaal 450 characters..."></textarea>
+        </form>
+    </div>
+
+</div>

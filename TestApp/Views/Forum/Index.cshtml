@@ -1,5 +1,5 @@
 ﻿@using Models
-@model AccountViewModel
+@model ForumViewModel
 @{
     ViewData["Title"] = "Forum";
 }
@@ -7,5 +7,12 @@
 <div class="row">
     <div class="col-md-12">
         <h1>Forum</h1>
+
+        @foreach (var bericht in @Model.Berichten.ToList())
+        {
+            <form asp-action="Bericht" method="get">
+                <button type="submit" class="list-group-item"><b>@bericht.BerichtTitel</b>: <br /> @bericht.Tekstbericht <input hidden Name="BerichtId" value="@bericht.BerichtId" /> </button>
+            </form>
+        }
     </div>
 </div>

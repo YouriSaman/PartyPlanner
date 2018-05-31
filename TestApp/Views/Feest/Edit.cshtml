@@ -96,6 +96,7 @@
         </div>
         <div class="col-md-6">
             <h1>Locatie</h1>
+            @*//TODO Hier nog hetzelfde als bij aanmaken!!!*@
         </div>
     </div>
     <div class="row-separator"></div>
@@ -116,7 +117,7 @@
                         <select class="form-control" size="@Model.Artiesten.Count">
                             @foreach (var artiest in Model.Artiesten)
                             {
-                                <option value="@artiest.ArtiestId">@artiest.Naam ~ €@artiest.Prijs</option>
+                                <option value="@artiest.ArtiestId">@artiest.Naam @*//TODO Ander dingen of alleen naam laten?*@</option>
                             }
                         </select>
                     </div>

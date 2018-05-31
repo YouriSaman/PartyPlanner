@@ -35,6 +35,7 @@ namespace TestApp.Controllers
         {
             FeestViewModel model = new FeestViewModel();
             model.FeestId = logic.FeestId;
+            model.Zalen = logic.GetAllZalen();
             return View(model);
         }
 
@@ -47,7 +48,8 @@ namespace TestApp.Controllers
             logic.EindDatum = viewModel.EindDatum;
             logic.FeestId = viewModel.FeestId;
 
-            if (logic.AddDatumFeest(logic.BeginDatum, logic.EindDatum, logic.FeestId) == true)
+            //TODO Zaalid
+            if (logic.AddDatumLocaFeest(logic.BeginDatum, logic.EindDatum,1 /*logic.ZaalId*/ , logic.FeestId) == true)
             {
                 return RedirectToAction("Index", "Home");
             }

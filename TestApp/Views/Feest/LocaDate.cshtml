@@ -22,6 +22,13 @@
         </div>
         <div class="col-md-6">
             <h1>Locatie</h1>
+            <label>Kies een zaal:</label>
+            <select asp-for="ZaalId" class="form-control"> @*TODO eventueel toevoegen momenteel dikke schijt --> size="Model.Zalen.Count"*@
+                @foreach (var zaal in Model.Zalen)
+                {
+                    <option value="@zaal.ZaalId">@zaal.Naam @*//TODO Ander dingen of alleen naam laten?*@ <input hidden Name="ArtiestId" Value="@zaal.ZaalId" /></option>
+                }
+            </select>
         </div>
     </div>
     <br />

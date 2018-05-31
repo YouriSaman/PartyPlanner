@@ -35,10 +35,12 @@ namespace Logic
 
         private FeestContext _feestContext;
         private ArtiestContext _artiestContext;
+        private ZaalContext _zaalContext;
         public FeestLogic()
         {
             _feestContext = new FeestContext();
             _artiestContext = new ArtiestContext();
+            _zaalContext = new ZaalContext();
         }
 
         public void MaakFeest(Feest feest, int gebruikerId)
@@ -64,11 +66,16 @@ namespace Logic
             FeestId = _feestContext.Add(feest, gebruikerId);
         }
 
-        public bool AddDatumFeest(DateTime beginDatum, DateTime eindDatum, int feestId)
+        public List<Zaal> GetAllZalen()
+        {
+            return _zaalContext.GetAllZalen();
+        }
+
+        public bool AddDatumLocaFeest(DateTime beginDatum, DateTime eindDatum,int zaalId , int feestId)
         {
             if (DatumCheck(beginDatum, eindDatum) == true)
             {
-                return _feestContext.AddDatum(beginDatum, eindDatum, feestId);
+                return _feestContext.AddDatumLoca(beginDatum, eindDatum, zaalId, feestId);
             };
 
             return false;

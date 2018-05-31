@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using TestApp.ViewModels;
 
 namespace TestApp.Controllers
@@ -14,10 +15,11 @@ namespace TestApp.Controllers
     {
         public IActionResult Index()
         {
-            GebruikerLogic logic = new GebruikerLogic();
-            HomeIndexViewModel viewModelIndex = new HomeIndexViewModel();
-            viewModelIndex.gebruikers = logic.GetAllGebruikers();
-            return View(viewModelIndex);
+            
+            //GebruikerLogic logic = new GebruikerLogic();
+            //HomeIndexViewModel viewModelIndex = new HomeIndexViewModel();
+            //viewModelIndex.gebruikers = logic.GetAllGebruikers();
+            return View(/*viewModelIndex*/);
         }
 
         public IActionResult EditGebruiker(int id)

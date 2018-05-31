@@ -39,6 +39,8 @@ namespace TestApp.ViewModels
         public List<Artiest> Artiesten { get; set; }
         public Feest Feest = new Feest();
         public List<Feest> Feesten = new List<Feest>();
+        public int ZaalId { get; set; }
+        public List<Zaal> Zalen { get; set; }
         public MuziekKeuze Muziek { get => _muziekKeuze; set => _muziekKeuze = value; }
 
         public enum MuziekKeuze { Niks, Zaal, Artiest }

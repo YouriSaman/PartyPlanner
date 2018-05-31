@@ -11,8 +11,8 @@ namespace Data
     {
         public int Add(Feest entity, int id)
         {
-            string query = "INSERT INTO [dbo].[Feest] ([FeestTitel],[AantalPersonen],[Drank],[Eten],[DrankWensen],[EtenWensen],[Betaling],[Entree],[EntreePrijs],[Consumptie], [ConsumptiePrijs],[Versiering],[BeginDatum],[EindDatum], [ArtiestId], [GebruikerId], [Muziek]) " +
-                           "VALUES(@FeestTitel, @AantalPersonen, @Drank, @Eten, @DrankWensen, @EtenWensen, @Betaling, @Entree, @EntreePrijs, @Consumptie, @ConsumptiePrijs, @Versiering, @BeginDatum, @EindDatum, @ArtiestId, @GebruikerId, @Muziek); " +
+            string query = "INSERT INTO [dbo].[Feest] ([FeestTitel],[AantalPersonen],[Drank],[Eten],[DrankWensen],[EtenWensen],[Betaling],[Entree],[EntreePrijs],[Consumptie], [ConsumptiePrijs],[Versiering],[BeginDatum],[EindDatum], [ArtiestId], [GebruikerId], [Muziek], [ZaalId]) " +
+                           "VALUES(@FeestTitel, @AantalPersonen, @Drank, @Eten, @DrankWensen, @EtenWensen, @Betaling, @Entree, @EntreePrijs, @Consumptie, @ConsumptiePrijs, @Versiering, @BeginDatum, @EindDatum, @ArtiestId, @GebruikerId, @Muziek, @ZaalId); " +
                            "SELECT @@IDENTITY AS NewID;";
 
             using (SqlCommand command = new SqlCommand(query, ConnectionString))
@@ -34,6 +34,7 @@ namespace Data
                 command.Parameters.AddWithValue("@ArtiestId", 0);
                 command.Parameters.AddWithValue("@GebruikerId", id);
                 command.Parameters.AddWithValue("@Muziek", 0);
+                command.Parameters.AddWithValue("ZaalId", 0);
 
                 try
                 {
@@ -62,16 +63,16 @@ namespace Data
 
         }
 
-        public bool AddDatum(DateTime beginDatum, DateTime eindDatum, int feestId)
+        public bool AddDatumLoca(DateTime beginDatum, DateTime eindDatum, int zaalId, int feestId)
         {
-            string query = "UPDATE Feest SET BeginDatum = @BeginDatum, EindDatum = @EindDatum WHERE FeestId = @FeestId;";
+            string query = "UPDATE Feest SET BeginDatum = @BeginDatum, EindDatum = @EindDatum, ZaalId = @ZaalId WHERE FeestId = @FeestId;";
 
             using (SqlCommand command = new SqlCommand(query, ConnectionString))
             {
                 command.Parameters.AddWithValue("@BeginDatum", beginDatum);
                 command.Parameters.AddWithValue("@EindDatum", eindDatum);
                 command.Parameters.AddWithValue("@FeestId", feestId);
-
+                command.Parameters.AddWithValue("@ZaalId", zaalId);
 
                 try
                 {
@@ -163,7 +164,8 @@ namespace Data
                                 Betaling = (Feest.BetalingKeuze)reader["Betaling"],
                                 ArtiestId = (int)reader["ArtiestId"],
                                 GebruikerId = (int)reader["GebruikerId"],
-                                Muziek = (Feest.MuziekKeuze)reader["Muziek"]
+                                Muziek = (Feest.MuziekKeuze)reader["Muziek"],
+                                ZaalId = (int)reader["ZaalId"]
                             };
 
                             feesten.Add(feest);
@@ -209,7 +211,7 @@ namespace Data
                                 feest.ArtiestId = (int) reader["ArtiestId"];
                                 feest.GebruikerId = (int) reader["GebruikerId"];
                                 feest.Muziek = (Feest.MuziekKeuze) reader["Muziek"];
-
+                                feest.ZaalId = (int) reader["ZaalId"];
                             }
 
                             ConnectionString.Close();
