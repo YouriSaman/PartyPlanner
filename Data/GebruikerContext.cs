@@ -10,21 +10,21 @@ namespace Data
 {
     public class GebruikerContext : Connection
     {
-        public bool Add(Gebruiker entity)
+        public bool Add(Gebruiker gebruiker)
         {
             ConnectionString.Open();
             string query = @"INSERT INTO [dbo].[Gebruiker] ([Gebruikersnaam],[Wachtwoord],[Admin],[Email],[Naam],[Straat],[Huisnummer],[Postcode],[Woonplaats])
                                 VALUES(@Gebruikersnaam, @Wachtwoord, 0, @Email, @Naam, @Straat, @Huisnummer, @Postcode, @Woonplaats)";
             var cmd = new SqlCommand(query, ConnectionString);
 
-            cmd.Parameters.AddWithValue("@Gebruikersnaam", entity.Gebruikersnaam);
-            cmd.Parameters.AddWithValue("@Wachtwoord", entity.Wachtwoord);
-            cmd.Parameters.AddWithValue("@Email", entity.Email);
-            cmd.Parameters.AddWithValue("@Naam", entity.Naam);
-            cmd.Parameters.AddWithValue("@Straat", entity.Straat);
-            cmd.Parameters.AddWithValue("@Huisnummer", entity.Huisnummer);
-            cmd.Parameters.AddWithValue("@Postcode", entity.Postcode);
-            cmd.Parameters.AddWithValue("@Woonplaats", entity.Woonplaats);
+            cmd.Parameters.AddWithValue("@Gebruikersnaam", gebruiker.Gebruikersnaam);
+            cmd.Parameters.AddWithValue("@Wachtwoord", gebruiker.Wachtwoord);
+            cmd.Parameters.AddWithValue("@Email", gebruiker.Email);
+            cmd.Parameters.AddWithValue("@Naam", gebruiker.Naam);
+            cmd.Parameters.AddWithValue("@Straat", gebruiker.Straat);
+            cmd.Parameters.AddWithValue("@Huisnummer", gebruiker.Huisnummer);
+            cmd.Parameters.AddWithValue("@Postcode", gebruiker.Postcode);
+            cmd.Parameters.AddWithValue("@Woonplaats", gebruiker.Woonplaats);
 
             try
             {
@@ -268,6 +268,28 @@ namespace Data
             }
             ConnectionString.Close();
             return feesten;
+        }
+
+        public void WijzigAccount(Gebruiker gebruiker)
+        {
+            ConnectionString.Open();
+            using (var cmd = new SqlCommand("spWijzigAccount", ConnectionString))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@GebruikerId", gebruiker.GebruikerId);
+                cmd.Parameters.AddWithValue("@Gebruikersnaam", gebruiker.Gebruikersnaam);
+                cmd.Parameters.AddWithValue("@Wachtwoord", gebruiker.Wachtwoord);
+                cmd.Parameters.AddWithValue("@Email", gebruiker.Email);
+                cmd.Parameters.AddWithValue("@Naam", gebruiker.Naam);
+                cmd.Parameters.AddWithValue("@Straat", gebruiker.Straat);
+                cmd.Parameters.AddWithValue("@Huisnummer", gebruiker.Huisnummer);
+                cmd.Parameters.AddWithValue("@Postcode", gebruiker.Postcode);
+                cmd.Parameters.AddWithValue("@Woonplaats", gebruiker.Woonplaats);
+
+                cmd.ExecuteReader();
+                ConnectionString.Close();
+            }
         }
     }
 }

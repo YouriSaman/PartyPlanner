@@ -61,6 +61,11 @@ namespace Logic
             return _gebruikerContext.AlleFeestenGebruiker(gebruikerId);
         }
 
+        public void WijzigAccount(Gebruiker gebruiker)
+        {
+            _gebruikerContext.WijzigAccount(gebruiker);
+        }
+
         public bool LoginCheck(string gebruikersnaam, string wachtwoord)
         {
             foreach (var gebruiker in GetAllGebruikers())
@@ -81,7 +86,7 @@ namespace Logic
                 if (gebruiker.Gebruikersnaam == nieuweGebruiker.Gebruikersnaam ||
                     gebruiker.Email == nieuweGebruiker.Email ||
                     EmptyFieldCheck(nieuweGebruiker) == false ||
-                    StringTest(nieuweGebruiker) == false)
+                    FieldCheck(nieuweGebruiker) == false)
                 {
                     return false;
                 }
@@ -89,17 +94,24 @@ namespace Logic
             return true;
         }
 
-        public bool StringTest(Gebruiker gebruiker)
+        public bool FieldCheck(Gebruiker gebruiker)
         {
-            if (Regex.IsMatch(gebruiker.Gebruikersnaam, @"^(?=.*[a-z])(?=\w*[A-Z])(?=\w*\d)\w{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter en nummer*/
-                Regex.IsMatch(gebruiker.Wachtwoord, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter, nummer en speciale teken*/
-                Regex.IsMatch(gebruiker.Naam, @"^[A-Z][a-z]*(\s[A-Z][a-z]*)+$") /*Geldt nog niet voor d'Haag, de Boer, etc. */  &&
-                Regex.IsMatch(gebruiker.Straat, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
-                Regex.IsMatch(gebruiker.Woonplaats, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
-                Regex.IsMatch(gebruiker.Postcode, @"^[1-9][0-9]{3}\s?[a-zA-Z]{2}$") /*Nederlandse postcode*/ &&
-                Regex.IsMatch(gebruiker.Huisnummer, @"^[1-9]([0-9]+)?([a-zA-Z]){0,2}?$")) /*Huisnummer met 1 of meer getallen en eventueel maximaal 2 letters*/
+            try
             {
-                return true;
+                if (Regex.IsMatch(gebruiker.Gebruikersnaam, @"^(?=.*[a-z])(?=\w*[A-Z])(?=\w*\d)\w{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter en nummer*/
+                    Regex.IsMatch(gebruiker.Wachtwoord, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter, nummer en speciale teken*/
+                    Regex.IsMatch(gebruiker.Naam, @"^[A-Z][a-z]*(\s[A-Z][a-z]*)+$") /*Geldt nog niet voor d'Haag, de Boer, etc. */  &&
+                    Regex.IsMatch(gebruiker.Straat, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
+                    Regex.IsMatch(gebruiker.Woonplaats, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
+                    Regex.IsMatch(gebruiker.Postcode, @"^[1-9][0-9]{3}\s?[a-zA-Z]{2}$") /*Nederlandse postcode*/ &&
+                    Regex.IsMatch(gebruiker.Huisnummer, @"^[1-9]([0-9]+)?([a-zA-Z]){0,2}?$")) /*Huisnummer met 1 of meer getallen en eventueel maximaal 2 letters*/
+                {
+                    return true;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return false;
             }
 
             return false;
@@ -109,7 +121,7 @@ namespace Logic
         {
             try
             {
-                if (gebruiker.Gebruikersnaam.Length > 0 || gebruiker.Wachtwoord.Length > 0 || gebruiker.Email.Length > 0 || gebruiker.Naam.Length > 0 || gebruiker.Straat.Length > 0 || gebruiker.Huisnummer.Length > 0 || gebruiker.Woonplaats.Length > 0)
+                if (gebruiker.Gebruikersnaam.Length > 0 && gebruiker.Wachtwoord.Length > 0 && gebruiker.Email.Length > 0 && gebruiker.Naam.Length > 0 && gebruiker.Straat.Length > 0 && gebruiker.Huisnummer.Length > 0 && gebruiker.Woonplaats.Length > 0)
                 {
                     return true;
                 }

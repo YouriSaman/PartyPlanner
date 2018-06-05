@@ -35,11 +35,6 @@ namespace TestApp.Controllers
             return View(model);
         }
 
-        public IActionResult MaakBericht()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult MaakBericht(BerichtViewModel model)
         {
@@ -65,6 +60,14 @@ namespace TestApp.Controllers
             model.Reactie.GebruikerId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
             logic.MaakReactie(model.Reactie);
             return RedirectToAction("Bericht", new{ BerichtId } );
+        }
+
+        [HttpPost]
+        public IActionResult DeleteBericht(int berichtId)
+        {
+            ForumLogic logic = new ForumLogic();
+            logic.VerwijderBericht(berichtId);
+            return RedirectToAction("Index");
         }
     }
 }

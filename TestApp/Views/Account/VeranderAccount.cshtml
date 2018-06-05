@@ -4,23 +4,30 @@
     ViewData["Title"] = "Profiel";
 }
 
-<h1>Mijn profiel</h1>
+<h1>Mijn account</h1>
 
-<label>GebruikerId:</label>
-<input class="form-control" readonly type="text" value="@Model.GebruikerId" />
-<label>Naam:</label>
-<input asp-for="Naam" class="form-control" type="text" value="@Model.Naam" />
-<label>Gebruikersnaam:</label>
-<input asp-for="Gebruikersnaam" class="form-control" type="text" value="@Model.Gebruikersnaam" />
-<label>Wachtwoord:</label>
-<input asp-for="Wachtwoord" class="form-control" type="password" value="@Model.Wachtwoord" />
-<label>E-mail:</label>
-<input asp-for="Email" class="form-control" type="email" value="@Model.Email" />
-<label>Straatnaam:</label>
-<input asp-for="Straat" class="form-control" type="text" value="@Model.Straat" />
-<label>Huisnummer:</label>
-<input asp-for="Huisnummer" class="form-control" type="text" value="@Model.Huisnummer" />
-<label>Postcode:</label>
-<input asp-for="Postcode" class="form-control" type="text" value="@Model.Postcode" />
-<label>Woonplaats:</label>
-<input asp-for="Woonplaats" class="form-control" type="text" value="@Model.Woonplaats" />
+<form method="post">
+    <div class="alert-danger" role="alert">@ViewData["InvalidUpdate"]</div>
+    <label>GebruikerId:</label>
+    <input asp-for="Gebruiker.GebruikerId" class="form-control" readonly type="text" value="@Model.Gebruiker.GebruikerId" />
+    <label>Naam:</label>
+    <input asp-for="Gebruiker.Naam" class="form-control" type="text" value="@Model.Gebruiker.Naam" />
+    <label>Gebruikersnaam:</label>
+    <input asp-for="Gebruiker.Gebruikersnaam" class="form-control" type="text" value="@Model.Gebruiker.Gebruikersnaam" />
+    <label>Wachtwoord:</label>
+    <input asp-for="Gebruiker.Wachtwoord" class="form-control" type="password" value="@Model.Gebruiker.Wachtwoord" />
+    <label>E-mail:</label>
+    <input asp-for="Gebruiker.Email" class="form-control" type="email" value="@Model.Gebruiker.Email" />
+    <label>Straatnaam:</label>
+    <input asp-for="Gebruiker.Straat" class="form-control" type="text" value="@Model.Gebruiker.Straat" />
+    <label>Huisnummer:</label>
+    <input asp-for="Gebruiker.Huisnummer" class="form-control" type="text" value="@Model.Gebruiker.Huisnummer" />
+    <label>Postcode:</label>
+    <input asp-for="Gebruiker.Postcode" class="form-control" type="text" value="@Model.Gebruiker.Postcode" />
+    <label>Woonplaats:</label>
+    <input asp-for="Gebruiker.Woonplaats" class="form-control" type="text" value="@Model.Gebruiker.Woonplaats" />
+
+    <br />
+    <button class="btn btn-default" asp-action="Index">Terug</button>
+    <button class="btn btn-default btn-right" type="submit">Opslaan!</button>
+</form>

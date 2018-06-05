@@ -20,6 +20,7 @@ namespace TestApp.ViewModels
         public string Postcode { get; set; }
         public string Woonplaats { get; set; }
         public bool Admin { get; set; }
+        public Gebruiker Gebruiker { get; set; }
 
         public FeestViewModel feestViewModel = new FeestViewModel();
 

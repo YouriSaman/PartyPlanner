@@ -156,8 +156,20 @@ namespace Data
                     throw errorException;
                 }
             }
+        }
 
+        public void DeleteBericht(int berichtId)
+        {
+            ConnectionString.Open();
+            string query = "DELETE FROM Bericht WHERE BerichtId = @BerichtId";
 
+            using (var cmd = new SqlCommand(query,ConnectionString))
+            {
+                cmd.Parameters.AddWithValue("@BerichtId", berichtId);
+
+                cmd.ExecuteReader();
+                ConnectionString.Close();
+            }
         }
     }
 }

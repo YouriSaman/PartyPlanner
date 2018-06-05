@@ -39,5 +39,10 @@ namespace Logic
         {
             return _tekstContext.ReactiesVanBericht(berichtId);
         }
+
+        public void VerwijderBericht(int berichtId)
+        {
+            _tekstContext.DeleteBericht(berichtId);
+        }
     }
 }
