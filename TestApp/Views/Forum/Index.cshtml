@@ -7,7 +7,11 @@
 <div class="row">
     <div class="col-md-12">
         <h1>Forum</h1>
-
+        
+        <form>
+            <button asp-action="MaakBericht" type="submit">Maak nieuw bericht!</button>
+        </form>
+        
         @foreach (var bericht in @Model.Berichten.ToList())
         {
             <form asp-action="Bericht" method="get">

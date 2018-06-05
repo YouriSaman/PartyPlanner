@@ -4,6 +4,7 @@
     ViewData["Title"] = "Locatie & Datum";
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <form method="post">
     <div class="row">
         <div class="col-md-6">
@@ -23,10 +24,12 @@
         <div class="col-md-6">
             <h1>Locatie</h1>
             <label>Kies een zaal:</label>
-            <select asp-for="ZaalId" class="form-control"> @*TODO eventueel toevoegen momenteel dikke schijt --> size="Model.Zalen.Count"*@
-                @foreach (var zaal in Model.Zalen)
+            <select id="zaalSelect" asp-for="ZaalId" class="form-control">
+                <option value="0" selected>Kies een zaal:</option>
+                
+                @foreach (var zaal in Model.Zalen.ToList())
                 {
-                    <option value="@zaal.ZaalId">@zaal.Naam @*//TODO Ander dingen of alleen naam laten?*@ <input hidden Name="ArtiestId" Value="@zaal.ZaalId" /></option>
+                    <option value="@zaal.ZaalId">@zaal.Naam @*//TODO Ander dingen of alleen naam laten?*@</option>
                 }
             </select>
         </div>
@@ -34,7 +37,14 @@
     <br />
     <div class="row">
 
-        <button style="float: right" type="submit">Maak aan!</button>
+        <button style="float: right" type="submit">Verder!</button>
 
     </div>
 </form>
+
+<script>
+    $(document).ready(function(){
+        var x = ($('#zaalSelect option').size());
+        $('#zaalSelect').attr('size', x);
+    });
+</script>

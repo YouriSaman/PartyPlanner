@@ -3,25 +3,28 @@
     ViewData["Title"] = "Muziek";
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h1>Muziek</h1>
         <form method="post">
+            <input hidden Name="FeestId" Value="@Model.FeestId" />
             <label>Kies muziekvoorziening:</label>
             <select asp-for="Muziek" class="form-control">
                 <option value="0">Niks / Zelf meenemen</option>
                 <option value="1">Spullen van de zaal lenen</option>
                 <option value="2">Artiest boeken</option>
             </select>
-            <br />
+            <br/>
             <div class="row">
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <select asp-for="ArtiestId" class="form-control" size="@Model.Artiesten.Count">
+                    <select id="artiestSelect" asp-for="ArtiestId" class="form-control">
+                        <option value="0">Kies een artiest:</option>
                         @foreach (var artiest in Model.Artiesten)
                         {
-                        <option value="@artiest.ArtiestId">@artiest.Naam @*//TODO Ander dingen of alleen naam laten?*@<input hidden Name="ArtiestId" Value="@artiest.ArtiestId" /> <input hidden Name="FeestId" Value="@Model.FeestId" /> </option>
+                            <option value="@artiest.ArtiestId">@artiest.Naam @*//TODO Ander dingen of alleen naam laten?*@ </option>
                         }
                     </select>
                 </div>
@@ -50,3 +53,10 @@
 
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        var x = ($('#artiestSelect option').size());
+        $('#artiestSelect').attr('size', x);
+    });
+</script>

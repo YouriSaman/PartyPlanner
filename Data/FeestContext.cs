@@ -97,15 +97,48 @@ namespace Data
 
         }
 
+        //public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
+        //{
+        //    string query = "UPDATE Feest SET ArtiestId = @ArtiestId, Muziek = @Muziek WHERE FeestId = @FeestId;";
+
+        //    using (SqlCommand command = new SqlCommand(query, ConnectionString))
+        //    {
+        //        command.Parameters.AddWithValue("@ArtiestId", artiestId);
+        //        command.Parameters.AddWithValue("@FeestId", feestId);
+        //        command.Parameters.AddWithValue("@Muziek", keuze);
+
+
+        //        try
+        //        {
+        //            ConnectionString.Open();
+        //            int result = command.ExecuteNonQuery();
+
+        //            if (result == 0)
+        //            {
+        //                ConnectionString.Close();
+
+        //                return false;
+        //            }
+
+        //            ConnectionString.Close();
+        //            return true;
+        //        }
+        //        catch (Exception errorException)
+        //        {
+        //            throw errorException;
+        //        }
+        //    }
+
+        //}
+
         public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
-            string query = "UPDATE Feest SET ArtiestId = @ArtiestId, Muziek = @Muziek WHERE FeestId = @FeestId;";
-
-            using (SqlCommand command = new SqlCommand(query, ConnectionString))
+            using (SqlCommand command = new SqlCommand("dbo.spAddArtiest", ConnectionString))
             {
+                command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@ArtiestId", artiestId);
                 command.Parameters.AddWithValue("@FeestId", feestId);
-                command.Parameters.AddWithValue("@Muziek", keuze);
+                command.Parameters.AddWithValue("@MuziekKeuze", keuze);
 
 
                 try

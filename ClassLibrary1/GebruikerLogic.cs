@@ -81,12 +81,6 @@ namespace Logic
                 if (gebruiker.Gebruikersnaam == Gebruikersnaam ||
                     gebruiker.Email == Email ||
                     EmptyFieldCheck() == false ||
-                    //WachtwoordCheck() ||
-                    //GebruikersnaamCheck() ||
-                    //NaamCheck() ||
-                    //StraatCheck() ||
-                    //WoonplaatsCheck() ||
-                    //HuisnummerCheck())
                     StringTest() == false)
                 {
                     return false;
@@ -94,125 +88,6 @@ namespace Logic
             }
             return true;
         }
-
-        //public bool WachtwoordCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Wachtwoord, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool GebruikersnaamCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Gebruikersnaam, @"^(?=.*[a-z])(?=\w*[A-Z])(?=\w*\d)\w{8,15}$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool NaamCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Naam, @"^[A-Z][a-z]*(\s[A-Z][a-z]*)+$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool StraatCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Straat, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool WoonplaatsCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Woonplaats, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool PostcodeCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Postcode, @"^[1-9][0-9]{3}\s?[a-zA-Z]{2}$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool HuisnummerCheck()
-        //{
-        //    try
-        //    {
-        //        if (Regex.IsMatch(Huisnummer, @"^[1-9]([0-9]+)?([a-zA-Z]){0,2}?$"))
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    catch (NullReferenceException)
-        //    {
-        //        return false;
-        //    }
-
-        //    return false;
-        //}
 
         public bool StringTest()
         {

@@ -47,11 +47,11 @@ namespace TestApp.Controllers
             logic.BeginDatum = viewModel.BeginDatum;
             logic.EindDatum = viewModel.EindDatum;
             logic.FeestId = viewModel.FeestId;
+            logic.ZaalId = viewModel.ZaalId;
 
-            //TODO Zaalid
-            if (logic.AddDatumLocaFeest(logic.BeginDatum, logic.EindDatum,1 /*logic.ZaalId*/ , logic.FeestId) == true)
+            if (logic.AddDatumLocaFeest(logic.BeginDatum, logic.EindDatum, logic.ZaalId , logic.FeestId) == true)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Muziek", viewModel);
             }
 
             ViewData["InvalidDate"] = "Één of meerdere datums overlappen, pas de datum(s) aan!";
@@ -89,7 +89,5 @@ namespace TestApp.Controllers
             viewModel.Feest = logic.GetFeestMetId(FeestId);
             return View(viewModel);
         }
-
-        
     }
 }

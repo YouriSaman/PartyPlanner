@@ -4,17 +4,17 @@
     ViewData["Title"] = "Bericht";
 }
 
-<h1><i>"@Model.Titel"</i></h1> @*<input hidden Name="Titel" value="@Model.Titel"/>*@
-<h3><i>@Model.Gebruikersnaam</i></h3> @*<input hidden Name="Gebruikersnaam" value="@Model.Gebruikersnaam" />*@
-<div class="well well-sm">@Model.Tekst</div> @*<input hidden Name="Tekst" value="@Model.Tekst" />*@
+<h1><i>"@Model.Titel"</i></h1>
+<h3><i>@Model.Gebruikersnaam</i></h3>
+<div class="well well-sm">@Model.Tekst</div>
+
+<h2>Reacties</h2>
+@foreach (var reactie in Model.Reacties)
+{
+    <div class="well well-sm"><b>@reactie.Gebruikersnaam</b> <br />@reactie.Tekstbericht</div>
+}
 
 <form asp-action="MaakReactie" method="post">
     <textarea asp-for="@Model.Reactie.Tekstbericht" style="resize: vertical; min-height: 50px; height: 250px;" class="form-control" maxlength="450" placeholder="Maximaal 450 characters..."></textarea>
     <button type="submit" class="btn btn-default">Plaats reactie <input hidden Name="BerichtId" value="@Model.BerichtId" /> </button>
 </form>
-
-<h2>Reacties</h2>
-@foreach (var reactie in Model.Reacties)
-{
-    <div class="well well-sm"><b>@reactie.Gebruikersnaam</b> <br/>@reactie.Tekstbericht</div>
-}

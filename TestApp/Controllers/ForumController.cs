@@ -53,12 +53,7 @@ namespace TestApp.Controllers
 
             return RedirectToAction("Index");
         }
-
-        public IActionResult MaakReactie()
-        {
-            return View();
-        }
-
+        
         [HttpPost]
         public IActionResult MaakReactie(BerichtViewModel viewModel, int BerichtId)
         {

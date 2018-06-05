@@ -31,6 +31,7 @@ namespace Logic
         public DateTime EindDatum { get; set; }
         public DateTime EindTijd { get; set; }
         public string FeestTitel { get; set; }
+        public int ZaalId { get; set; }
         public List<Artiest> Artiesten { get; set; }
 
         private FeestContext _feestContext;
@@ -52,6 +53,23 @@ namespace Logic
             if (feest.Eten == false)
             {
                 feest.EtenWensen = "";
+            }
+
+            if (feest.EntreeIndic == 0)
+            {
+                feest.Entree = false;
+            }
+            else if (feest.EntreeIndic == 1)
+            {
+                feest.Entree = true;
+            }
+            if (feest.VersierdIndic == 0)
+            {
+                feest.Versierd = false;
+            }
+            else if (feest.VersierdIndic == 1)
+            {
+                feest.Versierd = true;
             }
 
             if (feest.Entree == false)
@@ -83,6 +101,10 @@ namespace Logic
 
         public bool AddArtiestFeest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
+            if (keuze == Feest.MuziekKeuze.Niks || keuze == Feest.MuziekKeuze.Zaal)
+            {
+                artiestId = 0;
+            }
             return _feestContext.AddArtiest(feestId, artiestId, keuze);
         }
 

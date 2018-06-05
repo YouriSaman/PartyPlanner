@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Models
 {
-    public class Tekst
+    public abstract class Tekst
     {
         public int GebruikerId { get; set; }
         public string Gebruikersnaam { get; set; }

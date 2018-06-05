@@ -20,6 +20,7 @@ namespace TestApp.ViewModels
         private BetalingKeuze _betaling;
         public BetalingKeuze Betaling { get => _betaling; set => _betaling = value; }
         public bool Entree { get; set; }
+        public int EntreeIndic { get; set; }
         public decimal EntreePrijs { get; set; }
         public enum ConsumptieKeuze { Bonnen, Geld, Allin }
 
@@ -27,6 +28,7 @@ namespace TestApp.ViewModels
         public ConsumptieKeuze Consumptie { get => _consumptie; set => _consumptie = value; }
         public decimal ConsumptieBonPrijs { get; set; }
         public bool Versierd { get; set; }
+        public int VersierdIndic { get; set; }
         public bool Drank { get; set; }
         public string DrankWensen { get; set; }
         public bool Eten { get; set; }
@@ -50,6 +52,7 @@ namespace TestApp.ViewModels
         public FeestViewModel()
         {
             Artiesten = new List<Artiest>();
+            Zalen = new List<Zaal>();
         }
 
         public List<Feest> GetAllFeesten()
