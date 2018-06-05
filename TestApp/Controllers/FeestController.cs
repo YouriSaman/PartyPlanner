@@ -44,12 +44,12 @@ namespace TestApp.Controllers
         public IActionResult LocaDate(FeestViewModel viewModel)
         {
             FeestLogic logic = new FeestLogic();
-            logic.BeginDatum = viewModel.BeginDatum;
-            logic.EindDatum = viewModel.EindDatum;
-            logic.FeestId = viewModel.FeestId;
-            logic.ZaalId = viewModel.ZaalId;
+            var beginDatum = viewModel.BeginDatum;
+            var eindDatum = viewModel.EindDatum;
+            var feestId = viewModel.FeestId;
+            var zaalId = viewModel.ZaalId;
 
-            if (logic.AddDatumLocaFeest(logic.BeginDatum, logic.EindDatum, logic.ZaalId , logic.FeestId) == true)
+            if (logic.AddDatumLocaFeest(beginDatum, eindDatum, zaalId , feestId) == true)
             {
                 return RedirectToAction("Muziek", viewModel);
             }

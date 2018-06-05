@@ -37,11 +37,6 @@ namespace TestApp.Controllers
 
         public IActionResult Login()
         {
-            GebruikerLogic logic = new GebruikerLogic();
-            AccountViewModel loginViewModel = new AccountViewModel();
-            loginViewModel.Gebruikersnaam = logic.Gebruikersnaam;
-            loginViewModel.Wachtwoord = logic.Wachtwoord;
-
             return View();
         }
 
@@ -76,20 +71,11 @@ namespace TestApp.Controllers
         public IActionResult Registreer(Gebruiker gebruiker)
         {
             GebruikerLogic logic = new GebruikerLogic();
-            logic.Gebruikersnaam = gebruiker.Gebruikersnaam;
-            logic.Email = gebruiker.Email;
-            logic.Wachtwoord = gebruiker.Wachtwoord;
-            logic.Naam = gebruiker.Naam;
-            logic.Straat = gebruiker.Straat;
-            logic.Postcode = gebruiker.Postcode;
-            logic.Huisnummer = gebruiker.Huisnummer;
-            logic.Woonplaats = gebruiker.Woonplaats;
 
-            if (logic.AccountCheck() == true)
+            if (logic.AccountCheck(gebruiker) == true)
             {
                 logic.AddGebruiker(gebruiker);
                 return RedirectToAction("Login");
-
             }
 
             ViewData["InvalidRegister"] = "Er is iets fout gegaan bij het aanmaken van een nieuw account, pas de velden aan en probeer het opnieuw!";

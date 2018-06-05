@@ -9,34 +9,11 @@ namespace Logic
     public class FeestLogic
     {
         public int FeestId { get; set; }
-        public int AantalPersonen { get; set; }
-        public enum BetalingKeuze { Organisatie, Genodigden }
-
-        private Feest.BetalingKeuze _betaling;
-        public Feest.BetalingKeuze Betaling { get => _betaling; set => _betaling = value; }
-        public bool Entree { get; set; }
-        public decimal EntreePrijs { get; set; }
-        public enum ConsumptieKeuze { Bonnen, Geld, Allin }
-
-        private Feest.ConsumptieKeuze _consumptie;
-        public Feest.ConsumptieKeuze Consumptie { get => _consumptie; set => _consumptie = value; }
-        public decimal ConsumptieBonPrijs { get; set; }
-        public bool Versierd { get; set; }
-        public bool Drank { get; set; }
-        public string DrankWensen { get; set; }
-        public bool Eten { get; set; }
-        public string EtenWensen { get; set; }
-        public DateTime BeginDatum { get; set; }
-        public DateTime BeginTijd { get; set; }
-        public DateTime EindDatum { get; set; }
-        public DateTime EindTijd { get; set; }
-        public string FeestTitel { get; set; }
-        public int ZaalId { get; set; }
-        public List<Artiest> Artiesten { get; set; }
 
         private FeestContext _feestContext;
         private ArtiestContext _artiestContext;
         private ZaalContext _zaalContext;
+
         public FeestLogic()
         {
             _feestContext = new FeestContext();
@@ -46,41 +23,20 @@ namespace Logic
 
         public void MaakFeest(Feest feest, int gebruikerId)
         {
-            if (feest.Drank == false)
-            {
-                feest.DrankWensen = "";
-            }
-            if (feest.Eten == false)
-            {
-                feest.EtenWensen = "";
-            }
+            if (feest.Drank == false) feest.DrankWensen = ""; //Geen drank --> geen wensen
+            if (feest.Eten == false) feest.EtenWensen = ""; //Geen eten --> geen wensen
 
             if (feest.EntreeIndic == 0)
-            {
-                feest.Entree = false;
-            }
-            else if (feest.EntreeIndic == 1)
-            {
-                feest.Entree = true;
-            }
+                feest.Entree = false; //Geen entree gekozen
+            else if (feest.EntreeIndic == 1) feest.Entree = true; //Wel entree gekozen
+
             if (feest.VersierdIndic == 0)
-            {
-                feest.Versierd = false;
-            }
-            else if (feest.VersierdIndic == 1)
-            {
-                feest.Versierd = true;
-            }
+                feest.Versierd = false; //Niet versierd gekozen
+            else if (feest.VersierdIndic == 1) feest.Versierd = true; //Wel versierd gekozen
 
-            if (feest.Entree == false)
-            {
-                feest.EntreePrijs = 0;
-            }
+            if (feest.Entree == false) feest.EntreePrijs = 0; //Geen entree --> prijs = 0
+            if (feest.Consumptie == Feest.ConsumptieKeuze.Allin) feest.ConsumptieBonPrijs = 0; //All-in betekend geen consumptieprijs
 
-            if (feest.Consumptie == Feest.ConsumptieKeuze.Allin)
-            {
-                feest.ConsumptieBonPrijs = 0;
-            }
             FeestId = _feestContext.Add(feest, gebruikerId);
         }
 
@@ -130,7 +86,8 @@ namespace Logic
             {
                 if (beginDatum < eindDatum)
                 {
-                    if ((eindDatum < feest.BeginDatum && eindDatum < feest.EindDatum) || (beginDatum > feest.BeginDatum && beginDatum > feest.EindDatum))
+                    if (eindDatum < feest.BeginDatum && eindDatum < feest.EindDatum || //Feest eindigt eerder dan andere feest
+                        beginDatum > feest.BeginDatum && beginDatum > feest.EindDatum) //Feest begint later dan andere feest
                     {
                         goedeDatum = true;
                     }
