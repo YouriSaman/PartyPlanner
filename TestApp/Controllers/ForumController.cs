@@ -35,6 +35,11 @@ namespace TestApp.Controllers
             return View(model);
         }
 
+        public IActionResult MaakBericht()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult MaakBericht(BerichtViewModel model)
         {

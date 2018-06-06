@@ -121,6 +121,16 @@ namespace TestApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult DeleteAccount(int GebruikerId)
+        {
+            GebruikerLogic logic = new GebruikerLogic();
+            logic.VerwijderAccount(GebruikerId);
+
+            TempData["DeleteAccountSucces"] = "Account is succesvol verwijderd!";
+            return RedirectToAction("LogOut");
+        }
+
         private void PerformLogin(Gebruiker gebruiker)
         {
             var claims = new List<Claim>

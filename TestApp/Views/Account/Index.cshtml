@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-6">
-                <form>
+                <form asp-action="DeleteAccount" method="post">
                     <h3>Account gegevens</h3>
                     <label>Naam:</label>
                     <p>@Model.Naam</p>
@@ -29,7 +29,9 @@
                     <label>Woonplaats:</label>
                     <p>@Model.Woonplaats</p>
 
-                    <button asp-action="VeranderAccount" >Verander accountgegevens</button>
+                    <button class="btn btn-default" asp-action="VeranderAccount">Verander accountgegevens</button>
+                    <input hidden Name="GebruikerId" value="@Model.GebruikerId"/>
+                    <button class="btn btn-default btn-right" type="submit">Verwijder account</button>
                 </form>
                 
             </div>

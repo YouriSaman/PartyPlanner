@@ -66,6 +66,11 @@ namespace Logic
             _gebruikerContext.WijzigAccount(gebruiker);
         }
 
+        public void VerwijderAccount(int gebruikerId)
+        {
+            _gebruikerContext.DeleteAccount(gebruikerId);
+        }
+
         public bool LoginCheck(string gebruikersnaam, string wachtwoord)
         {
             foreach (var gebruiker in GetAllGebruikers())

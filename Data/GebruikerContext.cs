@@ -291,5 +291,18 @@ namespace Data
                 ConnectionString.Close();
             }
         }
+
+        public void DeleteAccount(int gebruikerId)
+        {
+            ConnectionString.Open();
+            string query = "DELETE FROM Gebruiker WHERE GebruikerId = @GebruikerId";
+            using (var cmd = new SqlCommand(query, ConnectionString))
+            {
+                cmd.Parameters.AddWithValue("@GebruikerId", gebruikerId);
+
+                cmd.ExecuteReader();
+                ConnectionString.Close();
+            }
+        }
     }
 }
