@@ -23,6 +23,7 @@ namespace TestApp.Controllers
             var feesten = logic.FeestenGebruiker(gebruikerId);
             viewModel.feestViewModel.Feesten = feesten;
             var gebruiker = logic.ProfielGebruiker(gebruikerId);
+            //TODO viewmodel.Gebruiker = gebruiker en dan in de view de .Gebruiker gebruiken!!
             viewModel.GebruikerId = gebruiker.GebruikerId;
             viewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
             viewModel.Wachtwoord = gebruiker.Wachtwoord;
@@ -89,15 +90,6 @@ namespace TestApp.Controllers
             int gebruikerId = Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value);
             GebruikerLogic logic = new GebruikerLogic();
             var gebruiker = logic.ProfielGebruiker(gebruikerId);
-            //viewModel.GebruikerId = gebruiker.GebruikerId;
-            //viewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
-            //viewModel.Wachtwoord = gebruiker.Wachtwoord;
-            //viewModel.Email = gebruiker.Email;
-            //viewModel.Straat = gebruiker.Straat;
-            //viewModel.Huisnummer = gebruiker.Huisnummer;
-            //viewModel.Woonplaats = gebruiker.Woonplaats;
-            //viewModel.Postcode = gebruiker.Postcode;
-            //viewModel.Naam = gebruiker.Naam;
             viewModel.Gebruiker = gebruiker;
             return View(viewModel);
         }
@@ -108,13 +100,10 @@ namespace TestApp.Controllers
             Gebruiker gebruiker = model.Gebruiker;
             GebruikerLogic logic = new GebruikerLogic();
             
-            if (logic.EmptyFieldCheck(gebruiker) == true)
+            if (logic.EmptyFieldCheck(gebruiker) == true && logic.FieldCheck(gebruiker) == true)
             {
-                if (logic.FieldCheck(gebruiker) == true)
-                {
-                    logic.WijzigAccount(gebruiker);
-                    return RedirectToAction("Index");
-                }
+                logic.WijzigAccount(gebruiker);
+                return RedirectToAction("Index");
             }
 
             ViewData["InvalidUpdate"] = "Er is iets fout gegaan bij het wijzigen van het account, pas de velden aan en probeer het opnieuw!";

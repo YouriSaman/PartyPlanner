@@ -15,7 +15,10 @@ namespace TestApp.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            FeestLogic logic = new FeestLogic();
+            HomeIndexViewModel viewModel = new HomeIndexViewModel();
+            viewModel.Zalen = logic.FeestenPerZaal();
+            return View(viewModel);
         }
 
         public IActionResult Contact()

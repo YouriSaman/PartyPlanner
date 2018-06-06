@@ -97,40 +97,6 @@ namespace Data
 
         }
 
-        //public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
-        //{
-        //    string query = "UPDATE Feest SET ArtiestId = @ArtiestId, Muziek = @Muziek WHERE FeestId = @FeestId;";
-
-        //    using (SqlCommand command = new SqlCommand(query, ConnectionString))
-        //    {
-        //        command.Parameters.AddWithValue("@ArtiestId", artiestId);
-        //        command.Parameters.AddWithValue("@FeestId", feestId);
-        //        command.Parameters.AddWithValue("@Muziek", keuze);
-
-
-        //        try
-        //        {
-        //            ConnectionString.Open();
-        //            int result = command.ExecuteNonQuery();
-
-        //            if (result == 0)
-        //            {
-        //                ConnectionString.Close();
-
-        //                return false;
-        //            }
-
-        //            ConnectionString.Close();
-        //            return true;
-        //        }
-        //        catch (Exception errorException)
-        //        {
-        //            throw errorException;
-        //        }
-        //    }
-
-        //}
-
         public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
             using (SqlCommand command = new SqlCommand("dbo.spAddArtiest", ConnectionString))
@@ -263,6 +229,64 @@ namespace Data
                     throw;
                 }
             }
+        }
+
+        public List<Zaal> FeestenPerZaal()
+        {
+            List<Zaal> zalen = new List<Zaal>();
+            ConnectionString.Open();
+            using (var cmd = new SqlCommand("spFeestenPerZaal",ConnectionString))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Zaal zaal = new Zaal
+                            {
+                                AantalFeesten = (int)reader["AantalFeesten"],
+                                Naam = (string)reader["Naam"]
+                            };
+                            zalen.Add(zaal);
+                        }
+                    }
+                }
+            }
+
+            return zalen;
+        }
+
+        public PersonenCapaciteit PersonenVsCapaciteit(int feestId)
+        {
+            ConnectionString.Open();
+            using (var cmd = new SqlCommand("spPersonenVSCapaciteit",ConnectionString))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FeestId", feestId);
+
+                PersonenCapaciteit pc = null; 
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        if (reader.Read())
+                        {
+                            pc = new PersonenCapaciteit
+                            {
+                                AantalPersonen = (int)reader["AantalPersonen"],
+                                Capaciteit = (int)reader["Capaciteit"]
+                            };
+                        }
+                    }
+                }
+                ConnectionString.Close();
+                return pc;
+            }
+            
+
         }
     }
 }

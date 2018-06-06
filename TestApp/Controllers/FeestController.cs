@@ -87,6 +87,7 @@ namespace TestApp.Controllers
             FeestViewModel viewModel = new FeestViewModel();
             FeestLogic logic = new FeestLogic();
             viewModel.Feest = logic.GetFeestMetId(FeestId);
+            viewModel.AantalPerCapaciteit = logic.PersonenVsCapaciteit(FeestId);
             return View(viewModel);
         }
     }

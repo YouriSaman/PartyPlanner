@@ -11,5 +11,6 @@ namespace Models
         public int Capaciteit { get; set; }
         public string Plaats { get; set; }
         public decimal Prijs { get; set; }
+        public int AantalFeesten { get; set; }
     }
 }

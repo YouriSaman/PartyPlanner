@@ -35,12 +35,7 @@ namespace Logic
         {
             return _gebruikerContext.GetAllGebruikers();
         }
-
-        public List<Gebruiker> GetAccGebruikers()
-        {
-            return _gebruikerContext.LoginAccGebruikers();
-        }
-
+        
         public bool LogCheck(string gebruikersnaam, string wachtwoord)
         {
             return _gebruikerContext.Checklogin(gebruikersnaam, wachtwoord);

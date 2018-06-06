@@ -1,7 +1,23 @@
-﻿@{ 
+﻿@using Models
+@model HomeIndexViewModel
+@{ 
     ViewData["Title"] = "Home";
 }
 
 
 <div class="alert-danger" role="alert">@TempData["DeleteAccountSucces"]</div>
 <img src="images/Logo PPZV.png" alt="Logo" />
+
+<table class="table">
+    <tr>
+        <th>Zaal (Naam)</th>
+        <th>Aantal Feesten</th>
+    </tr>
+    @foreach (var item in @Model.Zalen)
+    {
+        <tr>
+            <td>@item.Naam</td>
+            <td>@item.AantalFeesten</td>
+        </tr>
+    }
+</table>

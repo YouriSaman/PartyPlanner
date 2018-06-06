@@ -79,6 +79,16 @@ namespace Logic
             return _artiestContext.GetArtiesten();
         }
 
+        public List<Zaal> FeestenPerZaal()
+        {
+            return _feestContext.FeestenPerZaal();
+        }
+
+        public PersonenCapaciteit PersonenVsCapaciteit(int feestId)
+        {
+            return _feestContext.PersonenVsCapaciteit(feestId);
+        }
+
         private bool DatumCheck(DateTime beginDatum, DateTime eindDatum)
         {
             var goedeDatum = false;

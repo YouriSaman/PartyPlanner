@@ -196,37 +196,7 @@ namespace Data
                 }
             }
         }
-
-        public List<Gebruiker> LoginAccGebruikers()
-        {
-            var gebruikers = new List<Gebruiker>();
-            ConnectionString.Open();
-            using (var command = new SqlCommand("dbo.spLoginGebruikers", ConnectionString))
-            {
-                command.CommandType = CommandType.StoredProcedure;
-
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            var gebruiker = new Gebruiker()
-                            {
-                                Gebruikersnaam = (string)reader["Gebruikersnaam"],
-                                Wachtwoord = (string)reader["Wachtwoord"],
-                                Admin = (bool)reader["Admin"]
-                            };
-
-                            gebruikers.Add(gebruiker);
-                        }
-                    }
-                }
-            }
-
-            return gebruikers;
-        }
-
+        
         public List<Feest> AlleFeestenGebruiker(int gebruikerId)
         {
             var feesten = new List<Feest>();
