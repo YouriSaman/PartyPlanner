@@ -48,6 +48,7 @@ namespace TestApp.Controllers
             var eindDatum = viewModel.EindDatum;
             var feestId = viewModel.FeestId;
             var zaalId = viewModel.ZaalId;
+            viewModel.Zalen = logic.GetAllZalen();
 
             if (logic.AddDatumLocaFeest(beginDatum, eindDatum, zaalId , feestId) == true)
             {

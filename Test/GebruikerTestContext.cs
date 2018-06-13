@@ -1,87 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
-using Data;
+using Logic;
 using Models;
 
-namespace Logic
+namespace Test
 {
-    public class GebruikerLogic
+    public class GebruikerTestContext
     {
-        public int GebruikerId { get; set; }
-        public string Gebruikersnaam { get; set; }
-        public string Wachtwoord { get; set; }
-        public string Email { get; set; }
-        public string Naam { get; set; }
-        public string Straat { get; set; }
-        public string Huisnummer { get; set; }
-        public string Postcode { get; set; }
-        public string Woonplaats { get; set; }
-        public bool Admin { get; set; }
-        private GebruikerContext _gebruikerContext;
+        // ####################################
+        // # Unit test methods with fake data #
+        // ####################################
 
-        public GebruikerLogic()
-        {
-            _gebruikerContext = new GebruikerContext();
-        }
+        public static List<Gebruiker> UnitTestGebruikers = new List<Gebruiker>();
 
-        public GebruikerLogic(string test)
+        public bool UnitTestAccountCheck(Gebruiker nieuweGebruiker)
         {
-            Console.WriteLine(test);
-            //Lege gebruikerLogic voor tests --> WriteLine voor het tonen van de string die nergens word gebruikt..
-        }
-
-        public void AddGebruiker(Gebruiker gebruiker)
-        {
-            _gebruikerContext.Add(gebruiker);
-        }
-
-        public List<Gebruiker> GetAllGebruikers()
-        {
-            return _gebruikerContext.GetAllGebruikers();
-        }
-
-        public bool LoginCheck(string gebruikersnaam, string wachtwoord)
-        {
-            foreach (var gebruiker in GetAllGebruikers())
-            {
-                if (gebruiker.Gebruikersnaam == gebruikersnaam && gebruiker.Wachtwoord == wachtwoord)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public Gebruiker AccountGebruiker(string gebruikersnaam)
-        {
-            return _gebruikerContext.GetAccountGebruiker(gebruikersnaam);
-        }
-
-        public Gebruiker ProfielGebruiker(int gebruikerId)
-        {
-            return _gebruikerContext.GetProfielGebruiker(gebruikerId);
-        }
-
-        public List<Feest> FeestenGebruiker(int gebruikerId)
-        {
-            return _gebruikerContext.AlleFeestenGebruiker(gebruikerId);
-        }
-
-        public void WijzigAccount(Gebruiker gebruiker)
-        {
-            _gebruikerContext.WijzigAccount(gebruiker);
-        }
-
-        public void VerwijderAccount(int gebruikerId)
-        {
-            _gebruikerContext.DeleteAccount(gebruikerId);
-        }
-
-        public bool AccountCheck(Gebruiker nieuweGebruiker)
-        {
-            foreach (var gebruiker in GetAllGebruikers())
+            foreach (var gebruiker in UnitTestGebruikers)
             {
                 if (gebruiker.Gebruikersnaam == nieuweGebruiker.Gebruikersnaam ||
                     gebruiker.Email == nieuweGebruiker.Email ||
@@ -92,6 +27,28 @@ namespace Logic
                 }
             }
             return true;
+        }
+
+        public void VulUnitTestGebLijst()
+        {
+            UnitTestGebruikers.Add(new Gebruiker(2, "Keesje", "kees1!", "mail2@gmail.com", "Kees Achternaam", "Straat", "11a", "4587LK", "Woonplaats", true));
+        }
+
+        public void VoegTestGebruikerToe(Gebruiker nieuweGebruiker)
+        {
+            UnitTestGebruikers.Add(nieuweGebruiker);
+        }
+
+        public bool UnitTestLoginCheck(Gebruiker gebruiker)
+        {
+            foreach (var unitTestGebruiker in UnitTestGebruikers)
+            {
+                if (unitTestGebruiker.Gebruikersnaam == gebruiker.Gebruikersnaam && unitTestGebruiker.Wachtwoord == gebruiker.Wachtwoord)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         //Checks op alle ingevoerde velden bij registreren van een account
@@ -109,16 +66,6 @@ namespace Logic
                 {
                     return true;
                 }
-                //if (Regex.IsMatch(gebruiker.Gebruikersnaam, @"^(?=.*[a-z])(?=\w*[A-Z])(?=\w*\d)\w{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter en nummer. Tussen 8 en 15 lang*/
-                //    Regex.IsMatch(gebruiker.Wachtwoord, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$") && /*Tenminste 1 hoofdletter, kleine letter, nummer en speciale teken. Tussen 8 en 15 lang*/
-                //    Regex.IsMatch(gebruiker.Naam, @"^[A-Z][a-z]*(\s[A-Z][a-z]*)+$") /*Geldt nog niet voor d'Haag, de Boer, etc. */  &&
-                //    Regex.IsMatch(gebruiker.Straat, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
-                //    Regex.IsMatch(gebruiker.Woonplaats, @"^[A-Z][a-z]+(\s[A-Z][a-z]*)*$") &&
-                //    Regex.IsMatch(gebruiker.Postcode, @"^[1-9][0-9]{3}\s?[a-zA-Z]{2}$") /*Nederlandse postcode*/ &&
-                //    Regex.IsMatch(gebruiker.Huisnummer, @"^[1-9]([0-9]+)?([a-zA-Z]){0,2}?$")) /*Huisnummer met 1 of meer getallen en eventueel maximaal 2 letters*/
-                //{
-                //    return true;
-                //}
             }
             catch (NullReferenceException)
             {

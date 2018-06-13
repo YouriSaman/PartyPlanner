@@ -79,8 +79,11 @@
         <div class="col-md-6">
             <input type="hidden" asp-for="FeestId" value="@Model.FeestId" />
             <h2>Datum & Tijd</h2>
-
-            <h4 class="alert-danger">@ViewData["InvalidDate"]</h4>
+            
+            @if (@ViewData["InvalidDate"] != null)
+            {
+                <h4 class="alert alert-danger" role="alert">@ViewData["InvalidDate"]</h4>
+            }
             <div class="form-group">
                 <label>Begin datum:</label>
                 <input asp-for="BeginDatum" type="datetime" class="form-control" value="@Model.Feest.BeginDatum"/>

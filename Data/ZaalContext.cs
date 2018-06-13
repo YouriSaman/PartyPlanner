@@ -27,7 +27,9 @@ namespace Data
                                 Naam = (string)reader["Naam"],
                                 Plaats = (string)reader["Plaats"],
                                 Capaciteit = (int)reader["Capaciteit"],
-                                Prijs = (decimal)reader["Prijs"]
+                                Prijs = (decimal)reader["Prijs"],
+                                Latitude = (string)reader["Latitude"],
+                                Longitude = (string)reader["Longitude"]
                             };
                             zalen.Add(zaal);
                         }

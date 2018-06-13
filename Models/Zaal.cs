@@ -12,5 +12,7 @@ namespace Models
         public string Plaats { get; set; }
         public decimal Prijs { get; set; }
         public int AantalFeesten { get; set; }
+        public string Longitude { get; set; }
+        public string Latitude { get; set; }
     }
 }

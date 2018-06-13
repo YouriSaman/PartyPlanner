@@ -109,7 +109,7 @@ namespace Logic
                 }
             }
 
-            if (goedeDatum == true)
+            if (goedeDatum)
             {
                 return true;
             }

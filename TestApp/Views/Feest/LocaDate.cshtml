@@ -11,7 +11,10 @@
             <input type="hidden" asp-for="FeestId" value="@Model.FeestId"/>
             <h1>Datum & Tijd</h1>
             
-            <div class="alert-danger" role="alert">@ViewData["InvalidDate"]</div>
+            @if (@ViewData["InvalidDate"] != null)
+            {
+                <div class="alert alert-danger" role="alert">@ViewData["InvalidDate"]</div>
+            }
             <div class="form-group">
                 <label>Begin datum:</label>
                 <input asp-for="BeginDatum" type="datetime-local" class="form-control" />
@@ -24,14 +27,27 @@
         <div class="col-md-6">
             <h1>Locatie</h1>
             <label>Kies een zaal:</label>
-            <select id="zaalSelect" asp-for="ZaalId" class="form-control">
+            <select onchange="init_map()" id="zaalSelect" asp-for="ZaalId" class="form-control">
                 <option value="0" selected>Kies een zaal:</option>
                 
                 @foreach (var zaal in Model.Zalen.ToList())
                 {
-                    <option value="@zaal.ZaalId">@zaal.Naam @*//TODO Ander dingen of alleen naam laten?*@</option>
+                    <option id="@zaal.Latitude" class="@zaal.Longitude" value="@zaal.ZaalId">@zaal.Naam</option>
                 }
             </select>
+            
+            <script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyjWlHhjQo_yhP0M21i0yx_NTLAgp5NnA&callback=initMap" async defer></script>
+            <div style='overflow:hidden;height:440px;width:700px;'>
+                <div id='gmap_canvas' style='height:440px;width:700px;'></div>
+                <div><small><a href="embedgooglemaps.com/">https://embedgooglemaps.com/</a></small></div><div><small><a href="http://www.kumo-racing.nl/">hier</a></small></div>
+                <style>
+                    #gmap_canvas img {
+                        max-width: none !important;
+                        background: none !important
+                    }
+                </style>
+            </div>
         </div>
     </div>
     <br />
@@ -47,4 +63,21 @@
         var x = ($('#zaalSelect option').size());
         $('#zaalSelect').attr('size', x);
     });
+
+    function init_map() {
+        var lat = $('#zaalSelect').children(":selected").attr("id");
+        var lng = $('#zaalSelect').children(":selected").attr("class");
+        var myOptions = {
+            zoom: 17, center: new google.maps.LatLng(lat, lng), mapTypeId: google.maps.MapTypeId.ROADMAP
+        }; map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions); marker = new google.maps.Marker(
+            {
+                map: map, position: new google.maps.LatLng(lat, lng)
+
+            });
+        infowindow = new google.maps.InfoWindow(
+            {
+                content: '<strong>Gekozen zaal</strong>'
+
+            }); google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker);
+    } google.maps.event.addDomListener(window, 'load', init_map);
 </script>

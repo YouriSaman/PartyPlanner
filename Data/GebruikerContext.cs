@@ -78,39 +78,6 @@ namespace Data
             return gebruikers;
         }
 
-        public bool Checklogin(string gebruikersnaam, string wachtwoord)
-        {
-            string query = "select * from [Gebruiker] where [Gebruikersnaam] = @Gebruikersnaam and [Wachtwoord] = @Wachtwoord;";
-
-            using (SqlCommand command = new SqlCommand(query, ConnectionString))
-            {
-                command.Parameters.AddWithValue("@Gebruikersnaam", gebruikersnaam);
-                command.Parameters.AddWithValue("@Wachtwoord", wachtwoord);
-
-                try
-                {
-                    ConnectionString.Open();
-
-                    var result = command.ExecuteScalar();
-
-                    if (result == null)
-                    {
-                        ConnectionString.Close();
-                        return false;
-                    }
-                    else
-                    {
-                        ConnectionString.Close();
-                        return true;
-                    }
-                }
-                catch (Exception errorException)
-                {
-                    throw errorException;
-                }
-            }
-        }
-
         public Gebruiker GetAccountGebruiker(string gebruikersnaam)
         {
             ConnectionString.Open();

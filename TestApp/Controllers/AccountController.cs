@@ -47,8 +47,8 @@ namespace TestApp.Controllers
             AccountViewModel loginViewModel = new AccountViewModel();
             GebruikerLogic logic = new GebruikerLogic();
             loginViewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
-            loginViewModel.Wachtwoord = gebruiker.Wachtwoord;
-            if (logic.LogCheck(loginViewModel.Gebruikersnaam, loginViewModel.Wachtwoord) == true)
+            loginViewModel.Wachtwoord = gebruiker.Wachtwoord; //TODO gebruiker zelf gebruiken, alles overal korter maken waar mogelijk
+            if (logic.LoginCheck(loginViewModel.Gebruikersnaam, loginViewModel.Wachtwoord) == true)
             {
                 var gebruikerAccount = logic.AccountGebruiker(loginViewModel.Gebruikersnaam);
                 PerformLogin(gebruikerAccount);
@@ -100,7 +100,7 @@ namespace TestApp.Controllers
             Gebruiker gebruiker = model.Gebruiker;
             GebruikerLogic logic = new GebruikerLogic();
             
-            if (logic.EmptyFieldCheck(gebruiker) == true && logic.FieldCheck(gebruiker) == true)
+            if (logic.EmptyFieldCheck(gebruiker) == true /*&& logic.FieldCheck(gebruiker) == true*/)
             {
                 logic.WijzigAccount(gebruiker);
                 return RedirectToAction("Index");

@@ -26,9 +26,7 @@ namespace Models
         public bool Eten { get; set; }
         public string EtenWensen { get; set; }
         public DateTime BeginDatum { get; set; }
-        public DateTime BeginTijd { get; set; }
         public DateTime EindDatum { get; set; }
-        public DateTime EindTijd { get; set; }
         public string FeestTitel { get; set; }
         public List<Artiest> Artiesten { get; set; }
         public int ArtiestId { get; set; }
@@ -56,9 +54,7 @@ namespace Models
             bool eten,
             string etenWensen,
             DateTime beginDatum,
-            DateTime beginTijd,
             DateTime eindDatum,
-            DateTime eindTijd,
             List<Artiest> artiesten)
         {
             AantalPersonen = aantalPersonen;
@@ -73,9 +69,7 @@ namespace Models
             Eten = eten;
             EtenWensen = etenWensen;
             BeginDatum = beginDatum;
-            BeginTijd = beginTijd;
             EindDatum = eindDatum;
-            EindTijd = eindTijd;
             Artiesten = artiesten;
         }
     }

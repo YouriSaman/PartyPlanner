@@ -25,7 +25,11 @@ namespace TestApp.Controllers
         {
             ViewData["Message"] = "Fontys contact page.";
 
-            return View();
+            FeestViewModel model = new FeestViewModel();
+            FeestLogic logic = new FeestLogic();
+            model.Zalen = logic.GetAllZalen();
+
+            return View(model);
         }
 
         public IActionResult Error()
