@@ -20,8 +20,8 @@ namespace Test
             {
                 if (gebruiker.Gebruikersnaam == nieuweGebruiker.Gebruikersnaam ||
                     gebruiker.Email == nieuweGebruiker.Email ||
-                    EmptyFieldCheck(nieuweGebruiker) == false ||
-                    FieldCheck(nieuweGebruiker) == false)
+                    LeegVeldCheck(nieuweGebruiker) == false ||
+                    VeldCheck(nieuweGebruiker) == false)
                 {
                     return false;
                 }
@@ -52,7 +52,7 @@ namespace Test
         }
 
         //Checks op alle ingevoerde velden bij registreren van een account
-        public bool FieldCheck(Gebruiker gebruiker)
+        public bool VeldCheck(Gebruiker gebruiker)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace Test
         }
 
         //Check of er een leeg veld is
-        public bool EmptyFieldCheck(Gebruiker gebruiker)
+        public bool LeegVeldCheck(Gebruiker gebruiker)
         {
             try
             {

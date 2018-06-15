@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{FB21C435-AC06-41D8-9208-8BB09275484B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyPlanner", "TestApp\PartyPlanner.csproj", "{FB21C435-AC06-41D8-9208-8BB09275484B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{641E5F9C-FD10-4C18-BBCC-CFD07BDFF78F} = {641E5F9C-FD10-4C18-BBCC-CFD07BDFF78F}
 	EndProjectSection
@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "ClassLibrary1\Logi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{179ACD93-9139-45D6-B680-9CAF44AB8BA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{B1F49F59-8BEE-45CF-8F69-74245F75BA79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{B1F49F59-8BEE-45CF-8F69-74245F75BA79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

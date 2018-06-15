@@ -42,7 +42,7 @@ namespace Logic
 
         public void VerwijderBericht(int berichtId)
         {
-            _tekstContext.DeleteBericht(berichtId);
+            _tekstContext.VerwijderBericht(berichtId);
         }
     }
 }

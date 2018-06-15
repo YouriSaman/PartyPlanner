@@ -8,10 +8,6 @@ namespace TestApp.ViewModels
 {
     public class FeestViewModel
     {
-        Data.Data data = new Data.Data();
-        //public List<Feest> feesten { get; set; }
-        //public List<Artiest> artiesten { get; set; }
-
         public int FeestId { get; set; }
         public int ArtiestId { get; set; }
         public int AantalPersonen { get; set; }
@@ -34,14 +30,14 @@ namespace TestApp.ViewModels
         public bool Eten { get; set; }
         public string EtenWensen { get; set; }
         public DateTime BeginDatum { get; set; }
-        public DateTime BeginTijd { get; set; }
         public DateTime EindDatum { get; set; }
-        public DateTime EindTijd { get; set; }
         public string FeestTitel { get; set; }
         public List<Artiest> Artiesten { get; set; }
         public Feest Feest = new Feest();
         public List<Feest> Feesten = new List<Feest>();
         public int ZaalId { get; set; }
+        public string ZaalNaam { get; set; }
+        public string ArtiestNaam { get; set; }
         public PersonenCapaciteit AantalPerCapaciteit { get; set; }
         public List<Zaal> Zalen { get; set; }
         public MuziekKeuze Muziek { get => _muziekKeuze; set => _muziekKeuze = value; }
@@ -55,50 +51,5 @@ namespace TestApp.ViewModels
             Artiesten = new List<Artiest>();
             Zalen = new List<Zaal>();
         }
-
-        public List<Feest> GetAllFeesten()
-        {
-            return data.GetAllFeesten();
-        }
-
-
-
-        public bool DatumCheck()
-        {
-            foreach (var feest in GetAllFeesten())
-            {
-                if (BeginDatum < EindDatum)
-                {
-                    if ((EindDatum < feest.BeginDatum && EindDatum < feest.EindDatum) || (BeginDatum > feest.BeginDatum && BeginDatum > feest.EindDatum))
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                break;
-            }
-            return false;
-        }
-
-        //public bool DatumCheck()
-        //{
-        //    foreach (var feest in GetAllFeesten())
-        //    {
-        //        if (BeginDatum < EindDatum)
-        //        {
-        //            if (1 > 3)
-        //            {
-        //                return true;
-        //            }
-
-        //            break;        BREAK hierzo wss
-        //        }
-
-        //        return false;
-        //    }
-        //    return true;
-        //}
     }
 }

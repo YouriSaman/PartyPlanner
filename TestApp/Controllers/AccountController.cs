@@ -23,16 +23,8 @@ namespace TestApp.Controllers
             var feesten = logic.FeestenGebruiker(gebruikerId);
             viewModel.feestViewModel.Feesten = feesten;
             var gebruiker = logic.ProfielGebruiker(gebruikerId);
-            //TODO viewmodel.Gebruiker = gebruiker en dan in de view de .Gebruiker gebruiken!!
-            viewModel.GebruikerId = gebruiker.GebruikerId;
-            viewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
-            viewModel.Wachtwoord = gebruiker.Wachtwoord;
-            viewModel.Email = gebruiker.Email;
-            viewModel.Straat = gebruiker.Straat;
-            viewModel.Huisnummer = gebruiker.Huisnummer;
-            viewModel.Woonplaats = gebruiker.Woonplaats;
-            viewModel.Postcode = gebruiker.Postcode;
-            viewModel.Naam = gebruiker.Naam;
+            gebruiker.GebruikerId = gebruikerId;
+            viewModel.Gebruiker = gebruiker;
             return View(viewModel);
         }
 
@@ -47,7 +39,7 @@ namespace TestApp.Controllers
             AccountViewModel loginViewModel = new AccountViewModel();
             GebruikerLogic logic = new GebruikerLogic();
             loginViewModel.Gebruikersnaam = gebruiker.Gebruikersnaam;
-            loginViewModel.Wachtwoord = gebruiker.Wachtwoord; //TODO gebruiker zelf gebruiken, alles overal korter maken waar mogelijk
+            loginViewModel.Wachtwoord = gebruiker.Wachtwoord;
             if (logic.LoginCheck(loginViewModel.Gebruikersnaam, loginViewModel.Wachtwoord) == true)
             {
                 var gebruikerAccount = logic.AccountGebruiker(loginViewModel.Gebruikersnaam);
@@ -100,7 +92,8 @@ namespace TestApp.Controllers
             Gebruiker gebruiker = model.Gebruiker;
             GebruikerLogic logic = new GebruikerLogic();
             
-            if (logic.EmptyFieldCheck(gebruiker) == true /*&& logic.FieldCheck(gebruiker) == true*/)
+            //Checks op ingevoerde velden
+            if (logic.LeegVeldCheck(gebruiker) && logic.VeldCheck(gebruiker))
             {
                 logic.WijzigAccount(gebruiker);
                 return RedirectToAction("Index");
@@ -108,6 +101,11 @@ namespace TestApp.Controllers
 
             ViewData["InvalidUpdate"] = "Er is iets fout gegaan bij het wijzigen van het account, pas de velden aan en probeer het opnieuw!";
             return View(model);
+        }
+
+        public IActionResult DeleteAccount()
+        {
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

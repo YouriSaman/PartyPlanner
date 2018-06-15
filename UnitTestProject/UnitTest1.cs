@@ -16,29 +16,36 @@ namespace UnitTestProject
         //#####################
 
         [TestMethod]
-        public void GebruikersnaamCheck()
+        public void GebruikersnaamCheckFalse()
         {
             Assert.IsFalse(GebruikerLogic.GebruikersnaamCheck("Ditiseentest")); //Bevat geen cijfer
             Assert.IsFalse(GebruikerLogic.GebruikersnaamCheck("ditiseentest1")); //Bevat geen hoofdletter
             Assert.IsFalse(GebruikerLogic.GebruikersnaamCheck("Test1")); //Te kort
             Assert.IsFalse(GebruikerLogic.GebruikersnaamCheck("Ditisnogmaar1test")); //Te lang
             Assert.IsFalse(GebruikerLogic.GebruikersnaamCheck("Gebruiker12#")); //Bevat een speciaal teken
+        }
 
-
+        [TestMethod]
+        public void GebruikersnaamCheckTrue()
+        {
             Assert.IsTrue(GebruikerLogic.GebruikersnaamCheck("Gebruiker1"));
             Assert.IsTrue(GebruikerLogic.GebruikersnaamCheck("G3Bruiker"));
             Assert.IsTrue(GebruikerLogic.GebruikersnaamCheck("Gebruiker12"));
         }
 
         [TestMethod()]
-        public void WachtwoordCheckTest()
+        public void WachtwoordCheckTestFalse()
         {
             Assert.IsFalse(GebruikerLogic.WachtwoordCheck("Ditiseentest")); //Bevat geen cijfer
             Assert.IsFalse(GebruikerLogic.WachtwoordCheck("ditiseentest1")); //Bevat geen hoofdletter
             Assert.IsFalse(GebruikerLogic.WachtwoordCheck("Test1")); //Te kort
             Assert.IsFalse(GebruikerLogic.WachtwoordCheck("Ditisnogmaar1test")); //Te lang
             Assert.IsFalse(GebruikerLogic.WachtwoordCheck("Wachtwoord1")); //Bevat geen speciale teken
+        }
 
+        [TestMethod()]
+        public void WachtwoordCheckTestTrue()
+        {
             Assert.IsTrue(GebruikerLogic.WachtwoordCheck("D!tis1goede"));
             Assert.IsTrue(GebruikerLogic.WachtwoordCheck("D3ze()ok"));
         }
@@ -56,51 +63,68 @@ namespace UnitTestProject
         }
 
         [TestMethod]
-        public void StraatCheck()
+        public void StraatCheckFalse()
         {
             Assert.IsFalse(GebruikerLogic.StraatCheck("straat"));
             Assert.IsFalse(GebruikerLogic.StraatCheck("straat Straat"));
             Assert.IsFalse(GebruikerLogic.StraatCheck("straat 1"));
+        }
 
+        [TestMethod]
+        public void StraatCheckTrue()
+        {
             Assert.IsTrue(GebruikerLogic.StraatCheck("Straat"));
             Assert.IsTrue(GebruikerLogic.StraatCheck("Straat Naam"));
         }
 
         [TestMethod]
-        public void HuisnummerCheck()
+        public void HuisnummerCheckFalse()
         {
             Assert.IsFalse(GebruikerLogic.HuisnummerCheck("a1"));
             Assert.IsFalse(GebruikerLogic.HuisnummerCheck("a"));
             Assert.IsFalse(GebruikerLogic.HuisnummerCheck("11abc"));
+        }
 
+        [TestMethod]
+        public void HuisnummerCheckTrue()
+        {
             Assert.IsTrue(GebruikerLogic.HuisnummerCheck("11ab"));
             Assert.IsTrue(GebruikerLogic.HuisnummerCheck("11b"));
             Assert.IsTrue(GebruikerLogic.HuisnummerCheck("1111"));
         }
 
         [TestMethod]
-        public void WoonplaatsCheck()
+        public void WoonplaatsCheckFalse()
         {
             Assert.IsFalse(GebruikerLogic.WoonplaatsCheck("woonplaats"));
             Assert.IsFalse(GebruikerLogic.WoonplaatsCheck("woon plaats"));
             Assert.IsFalse(GebruikerLogic.WoonplaatsCheck("woonplaats 1"));
+        }
 
+        [TestMethod]
+        public void WoonplaatsCheckTrue()
+        {
             Assert.IsTrue(GebruikerLogic.WoonplaatsCheck("Woonplaats"));
             Assert.IsTrue(GebruikerLogic.WoonplaatsCheck("Woon Plaats"));
         }
 
+
         [TestMethod]
-        public void PostcodeCheck()
+        public void PostcodeCheckFalse()
         {
             Assert.IsFalse(GebruikerLogic.PostcodeCheck("123ab"));
             Assert.IsFalse(GebruikerLogic.PostcodeCheck("ab1234"));
             Assert.IsFalse(GebruikerLogic.PostcodeCheck("1234a"));
+        }
 
+        [TestMethod]
+        public void PostcodeCheckTrue()
+        {
             Assert.IsTrue(GebruikerLogic.PostcodeCheck("1234ab"));
             Assert.IsTrue(GebruikerLogic.PostcodeCheck("9024BA"));
             Assert.IsTrue(GebruikerLogic.PostcodeCheck("3421cd"));
         }
-        
+
         //Registreren en inloggen
         [TestMethod]
         public void RegisterLogInCheck()

@@ -13,24 +13,24 @@
                 <form asp-action="DeleteAccount" method="post">
                     <h3>Account gegevens</h3>
                     <label>Naam:</label>
-                    <p>@Model.Naam</p>
+                    <p>@Model.Gebruiker.Naam</p>
                     <label>Gebruikersnaam:</label>
-                    <p>@Model.Gebruikersnaam</p>
+                    <p>@Model.Gebruiker.Gebruikersnaam</p>
                     <label>Wachtwoord:</label>
                     <p>*********</p>
                     <label>E-mail:</label>
-                    <p>@Model.Email</p>
+                    <p>@Model.Gebruiker.Email</p>
                     <label>Straatnaam:</label>
-                    <p>@Model.Straat</p>
+                    <p>@Model.Gebruiker.Straat</p>
                     <label>Huisnummer:</label>
-                    <p>@Model.Huisnummer</p>
+                    <p>@Model.Gebruiker.Huisnummer</p>
                     <label>Postcode:</label>
-                    <p>@Model.Postcode</p>
+                    <p>@Model.Gebruiker.Postcode</p>
                     <label>Woonplaats:</label>
-                    <p>@Model.Woonplaats</p>
+                    <p>@Model.Gebruiker.Woonplaats</p>
 
-                    <button class="btn btn-default" asp-action="VeranderAccount">Verander accountgegevens</button>
-                    <input hidden Name="GebruikerId" value="@Model.GebruikerId"/>
+                    <a class="btn btn-default" asp-action="VeranderAccount">Verander accountgegevens</a>
+                    <input hidden Name="GebruikerId" value="@Model.Gebruiker.GebruikerId"/>
                     <button class="btn btn-default btn-right" type="submit">Verwijder account</button>
                 </form>
                 
@@ -41,7 +41,7 @@
                 <div class="list-group">
                     @foreach (var feest in @Model.feestViewModel.Feesten)
                     {
-                        <form asp-controller="Feest" asp-action="Edit" method="get">
+                        <form asp-controller="Feest" asp-action="View" method="get">
                         <button type="submit" class="list-group-item"><b>@feest.FeestTitel</b>: @feest.BeginDatum.ToString("f") - @feest.EindDatum.ToString("f") <input hidden Name="FeestId" value="@feest.FeestId"/> </button>
                         </form>
                     }

@@ -1,0 +1,96 @@
+﻿@using Models
+@model FeestViewModel
+@{
+    ViewData["Title"] = "Feest aanpassen";
+}
+
+<h1>Feestgegevens aanpassen of bekijken</h1>
+<form>
+    <div class="row">
+        <div class="col-md-3">
+            <h2>Algemeen</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Feest titel:</label>
+                <input asp-for="FeestTitel" readonly class="form-control" value="@Model.Feest.FeestTitel" />
+            </div>
+            <div class="form-group">
+                <label>Aantal personen:</label>
+                <input asp-for="AantalPersonen" readonly class="form-control" value="@Model.Feest.AantalPersonen" />
+            </div>
+            <div class="form-group">
+                <label>Capaciteit ratio:</label>
+                @Model.AantalPerCapaciteit.AantalPersonen / @Model.AantalPerCapaciteit.Capaciteit
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Drank wensen:</label>
+                <textarea readonly asp-for="DrankWensen" id="drankTextbox" style="resize: vertical; min-height: 50px" class="form-control" maxlength="450" placeholder="@Model.Feest.DrankWensen"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Eten wensen:</label>
+                <textarea readonly asp-for="EtenWensen" id="etenTextbox" style="resize: vertical; min-height: 50px" class="form-control" maxlength="450" placeholder="@Model.Feest.EtenWensen"></textarea>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Betaald door:</label> <br />
+                <input class="form-control" readonly value="@Model.Feest.Betaling"/>
+            </div>
+            <div class="form-group">
+                <label>Entreeprijs:</label> <br/>
+                <input class="form-control" readonly value="@Model.Feest.EntreePrijs"/>
+            </div>
+            <div class="form-group">
+                <label>Consumptie:</label> <br />
+                <input class="form-control" readonly value="@Model.Feest.Consumptie"/>
+            </div>
+            <div class="form-group">
+                <label>EntreePrijs:</label> <br/>
+                <input class="form-control" readonly value="@Model.Feest.EntreePrijs"/>
+            </div>
+            <div class="form-group">
+                <label>Versiering:</label> <br />
+                <input class="form-control" readonly placeholder="Leeg bij geen versiering gewild..." value="@Model.Feest.Versierd"/>
+            </div>
+        </div>
+    </div>
+    <div class="row-separator"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <input type="hidden" asp-for="FeestId" value="@Model.FeestId" />
+            <h2>Datum & Tijd</h2>
+            
+            @if (@ViewData["InvalidDate"] != null)
+            {
+                <h4 class="alert alert-danger" role="alert">@ViewData["InvalidDate"]</h4>
+            }
+            <div class="form-group">
+                <label>Begin datum:</label>
+                <input readonly type="datetime" class="form-control" value="@Model.Feest.BeginDatum"/>
+            </div>
+            <div class="form-group">
+                <label>Eind datum:</label>
+                <input readonly type="datetime" class="form-control" value="@Model.Feest.EindDatum"/>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1>Locatie</h1>
+            <label>Zaalnaam:</label>
+            <input class="form-control" readonly placeholer="Leeg bij geen zaal gekozen..." value="@Model.ZaalNaam"/>
+        </div>
+    </div>
+    <div class="row-separator"></div>
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Muziek</h2>
+                <label>Kies muziekvoorziening:</label>
+                <input class="form-control" readonly placeholder="Leeg bij geen artiest..." value="@Model.ArtiestNaam"/>
+        </div>
+
+    </div>
+</form>

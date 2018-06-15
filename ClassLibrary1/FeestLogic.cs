@@ -37,46 +37,46 @@ namespace Logic
             if (feest.Entree == false) feest.EntreePrijs = 0; //Geen entree --> prijs = 0
             if (feest.Consumptie == Feest.ConsumptieKeuze.Allin) feest.ConsumptieBonPrijs = 0; //All-in betekend geen consumptieprijs
 
-            FeestId = _feestContext.Add(feest, gebruikerId);
+            FeestId = _feestContext.VoegFeestToe(feest, gebruikerId);
         }
 
-        public List<Zaal> GetAllZalen()
+        public List<Zaal> AlleZalen()
         {
-            return _zaalContext.GetAllZalen();
+            return _zaalContext.AlleZalen();
         }
 
-        public bool AddDatumLocaFeest(DateTime beginDatum, DateTime eindDatum,int zaalId , int feestId)
+        public bool VoegDatumLocaToe(DateTime beginDatum, DateTime eindDatum,int zaalId , int feestId)
         {
             if (DatumCheck(beginDatum, eindDatum) == true)
             {
-                return _feestContext.AddDatumLoca(beginDatum, eindDatum, zaalId, feestId);
+                return _feestContext.VoegDatumLocaToe(beginDatum, eindDatum, zaalId, feestId);
             };
 
             return false;
         }
 
-        public bool AddArtiestFeest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
+        public bool VoegArtiestToeAanFeest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
             if (keuze == Feest.MuziekKeuze.Niks || keuze == Feest.MuziekKeuze.Zaal)
             {
                 artiestId = 0;
             }
-            return _feestContext.AddArtiest(feestId, artiestId, keuze);
+            return _feestContext.VoegArtiestToeAanFeest(feestId, artiestId, keuze);
         }
 
-        public List<Feest> GetAllFeesten()
+        public List<Feest> AlleFeesten()
         {
-            return _feestContext.GetAllFeesten();
+            return _feestContext.AlleFeesten();
         }
 
-        public Feest GetFeestMetId(int feestId)
+        public Feest FeestMetId(int feestId)
         {
             return _feestContext.FeestMetId(feestId);
         }
 
-        public List<Artiest> GetAllArtiesten()
+        public List<Artiest> AlleArtiesten()
         {
-            return _artiestContext.GetArtiesten();
+            return _artiestContext.AlleArtiesten();
         }
 
         public List<Zaal> FeestenPerZaal()
@@ -89,10 +89,20 @@ namespace Logic
             return _feestContext.PersonenVsCapaciteit(feestId);
         }
 
+        public Zaal ZaalMetId(int zaalId)
+        {
+            return _zaalContext.ZaalMetId(zaalId);
+        }
+
+        public Artiest ArtiestMetId(int artiestId)
+        {
+            return _artiestContext.ArtiestMetId(artiestId);
+        }
+
         private bool DatumCheck(DateTime beginDatum, DateTime eindDatum)
         {
             var goedeDatum = false;
-            foreach (var feest in GetAllFeesten())
+            foreach (var feest in AlleFeesten())
             {
                 if (beginDatum < eindDatum)
                 {

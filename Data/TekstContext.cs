@@ -158,7 +158,7 @@ namespace Data
             }
         }
 
-        public void DeleteBericht(int berichtId)
+        public void VerwijderBericht(int berichtId)
         {
             ConnectionString.Open();
             string query = "DELETE FROM Bericht WHERE BerichtId = @BerichtId";

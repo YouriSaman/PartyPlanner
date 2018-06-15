@@ -12,23 +12,23 @@
         <div class="alert alert-danger" role="alert">@ViewData["InvalidUpdate"]</div>
     }
     <label>GebruikerId:</label>
-    <input asp-for="Gebruiker.GebruikerId" class="form-control" readonly type="text" value="@Model.Gebruiker.GebruikerId" />
+    <input required asp-for="Gebruiker.GebruikerId" class="form-control" readonly type="text" value="@Model.Gebruiker.GebruikerId" />
     <label>Naam:</label>
-    <input asp-for="Gebruiker.Naam" class="form-control" type="text" value="@Model.Gebruiker.Naam" />
+    <input required asp-for="Gebruiker.Naam" class="form-control" type="text" value="@Model.Gebruiker.Naam" />
     <label>Gebruikersnaam:</label>
-    <input asp-for="Gebruiker.Gebruikersnaam" class="form-control" type="text" value="@Model.Gebruiker.Gebruikersnaam" />
+    <input required asp-for="Gebruiker.Gebruikersnaam" class="form-control" type="text" value="@Model.Gebruiker.Gebruikersnaam" />
     <label>Wachtwoord:</label>
-    <input asp-for="Gebruiker.Wachtwoord" class="form-control" type="password" value="@Model.Gebruiker.Wachtwoord" />
+    <input required asp-for="Gebruiker.Wachtwoord" class="form-control" type="password" value="@Model.Gebruiker.Wachtwoord" />
     <label>E-mail:</label>
-    <input asp-for="Gebruiker.Email" class="form-control" type="email" value="@Model.Gebruiker.Email" />
+    <input required asp-for="Gebruiker.Email" class="form-control" type="email" value="@Model.Gebruiker.Email" />
     <label>Straatnaam:</label>
-    <input asp-for="Gebruiker.Straat" class="form-control" type="text" value="@Model.Gebruiker.Straat" />
+    <input required asp-for="Gebruiker.Straat" class="form-control" type="text" value="@Model.Gebruiker.Straat" />
     <label>Huisnummer:</label>
-    <input asp-for="Gebruiker.Huisnummer" class="form-control" type="text" value="@Model.Gebruiker.Huisnummer" />
+    <input required asp-for="Gebruiker.Huisnummer" class="form-control" type="text" value="@Model.Gebruiker.Huisnummer" />
     <label>Postcode:</label>
-    <input asp-for="Gebruiker.Postcode" class="form-control" type="text" value="@Model.Gebruiker.Postcode" />
+    <input required asp-for="Gebruiker.Postcode" class="form-control" type="text" value="@Model.Gebruiker.Postcode" />
     <label>Woonplaats:</label>
-    <input asp-for="Gebruiker.Woonplaats" class="form-control" type="text" value="@Model.Gebruiker.Woonplaats" />
+    <input required asp-for="Gebruiker.Woonplaats" class="form-control" type="text" value="@Model.Gebruiker.Woonplaats" />
 
     <br />
     <button class="btn btn-default" asp-action="Index">Terug</button>

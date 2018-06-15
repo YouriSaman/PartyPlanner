@@ -8,5 +8,13 @@ namespace Models
     {
         public int AantalPersonen { get; set; }
         public int Capaciteit { get; set; }
+
+        public PersonenCapaciteit(int aantalPersonen, int capaciteit)
+        {
+            AantalPersonen = aantalPersonen;
+            Capaciteit = capaciteit;
+        }
+
+        public PersonenCapaciteit() {}
     }
 }

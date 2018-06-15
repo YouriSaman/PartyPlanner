@@ -229,7 +229,7 @@ namespace Data
             }
         }
 
-        public void DeleteAccount(int gebruikerId)
+        public void VerwijderAccount(int gebruikerId)
         {
             ConnectionString.Open();
             string query = "DELETE FROM Gebruiker WHERE GebruikerId = @GebruikerId";

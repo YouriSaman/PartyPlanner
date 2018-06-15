@@ -27,7 +27,7 @@ namespace TestApp.Controllers
 
             FeestViewModel model = new FeestViewModel();
             FeestLogic logic = new FeestLogic();
-            model.Zalen = logic.GetAllZalen();
+            model.Zalen = logic.AlleZalen();
 
             return View(model);
         }

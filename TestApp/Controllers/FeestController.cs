@@ -35,7 +35,7 @@ namespace TestApp.Controllers
         {
             FeestViewModel model = new FeestViewModel();
             model.FeestId = logic.FeestId;
-            model.Zalen = logic.GetAllZalen();
+            model.Zalen = logic.AlleZalen();
             return View(model);
         }
 
@@ -48,9 +48,10 @@ namespace TestApp.Controllers
             var eindDatum = viewModel.EindDatum;
             var feestId = viewModel.FeestId;
             var zaalId = viewModel.ZaalId;
-            viewModel.Zalen = logic.GetAllZalen();
+            viewModel.Zalen = logic.AlleZalen();
 
-            if (logic.AddDatumLocaFeest(beginDatum, eindDatum, zaalId , feestId) == true)
+            //Check of er geen feesten voor of na zijn en dan wordt dit pas toegevoegd aan het feest
+            if (logic.VoegDatumLocaToe(beginDatum, eindDatum, zaalId , feestId) == true)
             {
                 return RedirectToAction("Muziek", viewModel);
             }
@@ -63,7 +64,7 @@ namespace TestApp.Controllers
         public IActionResult Muziek(FeestViewModel viewModel)
         {
             FeestLogic logic = new FeestLogic();
-            var artiesten = logic.GetAllArtiesten();
+            var artiesten = logic.AlleArtiesten();
             int feestId = viewModel.FeestId;
             logic.FeestId = feestId;
 
@@ -79,16 +80,47 @@ namespace TestApp.Controllers
         public IActionResult Muziek(int ArtiestId, int FeestId, Feest.MuziekKeuze Muziek)
         {
             FeestLogic logic = new FeestLogic();
-            logic.AddArtiestFeest(FeestId, ArtiestId, Muziek);
+            logic.VoegArtiestToeAanFeest(FeestId, ArtiestId, Muziek);
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Edit(int FeestId)
+        public IActionResult View(int FeestId)
         {
             FeestViewModel viewModel = new FeestViewModel();
             FeestLogic logic = new FeestLogic();
-            viewModel.Feest = logic.GetFeestMetId(FeestId);
-            viewModel.AantalPerCapaciteit = logic.PersonenVsCapaciteit(FeestId);
+            viewModel.Feest = logic.FeestMetId(FeestId);
+
+            //Zaalnaam ophalen
+            Zaal zaal = logic.ZaalMetId(viewModel.Feest.ZaalId);
+            if (zaal != null)
+            {
+                viewModel.ZaalNaam = zaal.Naam;
+            }
+            else
+            {
+                viewModel.ZaalNaam = "";
+            }
+            
+            //Ariestnaam ophalen
+            Artiest artiest = logic.ArtiestMetId(viewModel.Feest.ArtiestId);
+            if (artiest != null)
+            {
+                viewModel.ArtiestNaam = artiest.Naam;
+            }
+            else
+            {
+                viewModel.ArtiestNaam = "";
+            }
+            
+            //Als er geen zaal is gekozen dan is er ook geen ratio, hier wordt dat goed afgehandeld
+            if (logic.PersonenVsCapaciteit(FeestId) != null)
+            {
+                viewModel.AantalPerCapaciteit = logic.PersonenVsCapaciteit(FeestId);
+            }
+            else
+            {
+                viewModel.AantalPerCapaciteit = new PersonenCapaciteit(0, 0);
+            }
             return View(viewModel);
         }
     }

@@ -9,7 +9,7 @@ namespace Data
 {
     public class FeestContext : Connection
     {
-        public int Add(Feest entity, int id)
+        public int VoegFeestToe(Feest entity, int id)
         {
             string query = "INSERT INTO [dbo].[Feest] ([FeestTitel],[AantalPersonen],[Drank],[Eten],[DrankWensen],[EtenWensen],[Betaling],[Entree],[EntreePrijs],[Consumptie], [ConsumptiePrijs],[Versiering],[BeginDatum],[EindDatum], [ArtiestId], [GebruikerId], [Muziek], [ZaalId]) " +
                            "VALUES(@FeestTitel, @AantalPersonen, @Drank, @Eten, @DrankWensen, @EtenWensen, @Betaling, @Entree, @EntreePrijs, @Consumptie, @ConsumptiePrijs, @Versiering, @BeginDatum, @EindDatum, @ArtiestId, @GebruikerId, @Muziek, @ZaalId); " +
@@ -63,7 +63,7 @@ namespace Data
 
         }
 
-        public bool AddDatumLoca(DateTime beginDatum, DateTime eindDatum, int zaalId, int feestId)
+        public bool VoegDatumLocaToe(DateTime beginDatum, DateTime eindDatum, int zaalId, int feestId)
         {
             string query = "UPDATE Feest SET BeginDatum = @BeginDatum, EindDatum = @EindDatum, ZaalId = @ZaalId WHERE FeestId = @FeestId;";
 
@@ -97,7 +97,7 @@ namespace Data
 
         }
 
-        public bool AddArtiest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
+        public bool VoegArtiestToeAanFeest(int feestId, int artiestId, Feest.MuziekKeuze keuze)
         {
             using (SqlCommand command = new SqlCommand("dbo.spAddArtiest", ConnectionString))
             {
@@ -130,7 +130,7 @@ namespace Data
 
         }
 
-        public List<Feest> GetAllFeesten()
+        public List<Feest> AlleFeesten()
         {
             var feesten = new List<Feest>();
             ConnectionString.Open();

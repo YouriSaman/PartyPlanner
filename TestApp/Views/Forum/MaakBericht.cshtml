@@ -9,9 +9,9 @@
     <div class="col-md-7">
         <form method="post">
             <label>Titel:</label>
-            <input class="form-control" maxlength="50" asp-for="@Model.Titel" type="Text" placeholder="Maximaal 50 characters..."/>
+            <input required class="form-control" maxlength="50" asp-for="@Model.Titel" type="Text" placeholder="Maximaal 50 characters..."/>
             <label>Bericht:</label>
-            <textarea asp-for="@Model.Tekst"style="resize: vertical; min-height: 50px; height: 250px;" class="form-control" maxlength="1000" placeholder="Maximaal 1000 characters..."></textarea>
+            <textarea required asp-for="@Model.Tekst"style="resize: vertical; min-height: 50px; height: 250px;" class="form-control" maxlength="1000" placeholder="Maximaal 1000 characters..."></textarea>
             
             <button type="submit">Maak!</button>
         </form>
